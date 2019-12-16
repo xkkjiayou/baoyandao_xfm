@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+	<title>小飞猫保研-梦想今日实现</title>
+	<!-- Meta tag Keywords -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="UTF-8" />
+	<meta name="keywords" content="保研,推免,保研案例,保研学长,保研咨询,保研服务,保研大数据,高校选择,去哪个学校好,研究生推免,研究生报送,预推免,读研,考研资料,一对一服务,保研论坛,保研社区,保研高校,推免社区,小飞猫,小飞猫保研,小飞猫教育,教育" />
+	<meta name="description" content="为高校学子提供保研信息查询，保研经验交流，本站有3000+保研前辈的经验分享，数十万保研案例，百万保研大数据，实时更新保研资讯，不再错过保研机会。为你提供个人定位咨询，人工智能保研服务。小飞猫保研，你值得拥有。"/>
+	<meta name="mobile-web-app-capable" content="yes"/>
+	<!-- //Meta tag Keywords -->
+
+	<!-- Custom-Files -->
+	<link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+	<meta name="baidu-site-verification" content="HcTnMD9Ktw" />
+	<meta name="sogou_site_verification" content="Eb12AFY9km"/>
+	<!-- Bootstrap-Core-CSS -->
+	<link rel="stylesheet" th:href="@{/css/style.css}" type="text/css" media="all" />
+	<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+	<!-- Style-CSS -->
+	<link th:href="@{/css/font-awesome.min.css}" rel="stylesheet">
+	<!-- Font-Awesome-Icons-CSS -->
+	<!-- //Custom-Files -->
+
+</head>
+
+<body>
+	<!-- main banner -->
+	<div class="main-top" id="home">
+		<!-- header -->
+		<header>
+			<div class="container-fluid">
+				<div class="header d-lg-flex justify-content-between align-items-center py-3 px-sm-3">
+					<!-- logo -->
+					<div id="logo">
+						<h1><a href="/index"><img src="/byd_web_ui/logo.png" style="height: 50px;"/></a></h1>
+					</div>
+					<!-- //logo -->
+					<!-- nav -->
+					<div class="nav_w3ls">
+						<nav>
+							<label for="drop" class="toggle">Menu</label>
+							<input type="checkbox" id="drop" />
+							<ul class="menu">
+								<li><a href="/index" class="active">首页</a></li>
+								<li><a href="/bbs">讨论区</a></li>
+								<li><a href="/university">资讯库
+									<span class="tag-hot" style="background-color:#df2717;">
+                                    <img src="/byd_web_ui/recommend_icon.png" alt="" style="width:20px">
+                                    <span>智!</span>
+                                </span></a></li>
+								<li>
+									<!-- First Tier Drop Down -->
+									<label for="drop-2" class="toggle toogle-2">题库 <span class="fa fa-angle-down" aria-hidden="true"></span>
+									</label>
+									<a href="#">文库 <span class="fa fa-angle-down" aria-hidden="true"></span></a>
+									<input type="checkbox" id="drop-2" />
+									<ul>
+										<li><a href="/bbs/1/666/11" class="drop-text">各种排行</a></li>
+										<li><a href="/bbs/1/666/21" class="drop-text">导师信息库
+											<span class="tag-hot" >
+                                                <img src="/byd_web_ui/niming_icon.png" alt="" style="width:15px">
+                                                <span>匿!</span>
+                                            </span></a></li></a></li>
+									</ul>
+								</li>
+								<li><a href="http://www.findai.wang:8881/">AI定位</a></li>
+							</ul>
+						</nav>
+					</div>
+
+					<!-- //nav -->
+					<div class="d-flex mt-lg-1 mt-sm-2 mt-3 justify-content-center">
+						<!-- search -->
+						<div class="search-w3layouts mr-3">
+							<form action="/bbs_search" method="get" class="search-bottom-wthree d-flex">
+								<input class="search" type="search" placeholder="懂你所指，搜搜Anything..." required="" name="keyword"  id="keyword" oninput="getuniversityname();">
+								<button class="form-control btn" type="submit"><span class="fa fa-search"></span></button>
+							</form>
+							<ul id="ul_university" class="list-module" style="background-image:url('/byd_web_ui/recommend_university_bg.jpg') ;background-size:100% 100%;text-align:center;position: absolute;z-index: 11;"></ul>
+							<script>
+								//智能搜索框,语义识别
+								function getuniversityname(){
+									var keyword1 = $('#keyword').val();
+									$('#ul_university li').remove();
+									$.ajax({
+										type:"post",
+										url:"/getsuggestsearch",
+										data:{keyword:keyword1},
+										dataType:'json',//dataType:"json",使得返回来的数据格式为json 如果不 添加该条属性，则返回来的为字符串
+										success:function(data){
+											$('#ul_university').show();
+											//alert(data["status"]) //取值可以.key值
+											//alert(data["message"]) //取值可以.key值
+											//alert(data);
+											//window.location.reload();
+
+									　　　　for (var i = 0; i < data.suggestsearch.length; i++) {
+										　　　　//如果在select中传递其他参数，可以在option 的value属性中添加参数
+												$("#ul_university").append("<li style='background-color:#ffffffcc;padding:8px' onclick='showoninput("+"\""+data.suggestsearch[i]+"\""+");'>"+data.suggestsearch[i]+"</li>");
+											}
+										},
+										error:function(data){
+											$('#ul_university').hide();
+											alert("error");
+											alert(data);
+										}
+									})
+									}
+									function showoninput(name){
+										$('#ul_university li').remove();
+										$('#keyword').val(name);
+										$('#ul_university').hide();
+									}
+							</script>
+
+						</div>
+						<!-- //search -->
+						<!-- download -->
+<!--						关于登录的判断 开始-->
+							<span th:if="${session.USER == null}">
+								<a class="dwn-w3ls btn" href="login" target="_blank">
+									<span style="color:#fff">登录/注册</span>
+								</a>
+							</span>
+							<span th:if="${session.USER != null}">
+								<div class="nav_w3ls">
+									<nav class="menu">
+										<ul class="menu">
+											<li>
+												<label for="drop-3" class="toggle toogle-2"><span class="fa fa-angle-down" aria-hidden="true"></span>
+												</label>
+												<a href="#" class="dwn-w3ls btn" style="color:#fff"><span th:text="${session.USER.nickname}"></span>
+													<span class="badge" th:text="${session.USER.message_nums}" th:if="${session.USER.message_nums>0}">0</span>
+													<span class="fa fa-angle-down" aria-hidden="true"></span></a>
+												<input type="checkbox" id="drop-3" />
+												<ul>
+													<li><a href="user_info" class="drop-text">个人中心
+													<span class="badge" th:text="${session.USER.message_nums}" th:if="${session.USER.message_nums>0}">0</span>
+													</a></li>
+													<li><a href="faq.html" class="drop-text">礼物兑换</a></li>
+													<li><a href="logout" class="drop-text">退出</a></li>
+												</ul>
+											</li>
+										</ul>
+									</nav>
+								</div>
+
+							</span>
+<!--							关于登录的判断 结束-->
+						<!-- //download -->
+					</div>
+				</div>
+			</div>
+		</header>
+		<!-- //header -->
+
+		<!-- banner -->
+		<div class="banner_w3lspvt position-relative">
+			<div class="container">
+				<div class="d-md-flex">
+					<div class="w3ls_banner_txt">
+						<h3 class="w3ls_pvt-title">小飞猫保研 <br><small><span>你想要的学校/专业，这里都有</span></small></h3>
+						<p class="text-sty-banner">国内首个AI+保研互动社区.</p>
+						<a href="bbs" class="btn button-style mt-md-5 mt-4">讨论区</a>
+					</div>
+					<div class="banner-img">
+						<img th:src="@{images/banner.png}" alt="" class="img-fluid">
+					</div>
+				</div>
+			</div>
+			<!-- animations effects -->
+			<div class="icon-effects-w3l">
+				<img th:src="@{/images/shape1.png}" alt="" class="img-fluid shape-wthree shape-w3-one">
+				<img th:src="@{/images/shape2.png}" alt="" class="img-fluid shape-wthree shape-w3-two">
+				<img th:src="@{/images/shape3.png}" alt="" class="img-fluid shape-wthree shape-w3-three">
+				<img th:src="@{/images/shape5.png}" alt="" class="img-fluid shape-wthree shape-w3-four">
+				<img th:src="@{/images/shape4.png}" alt="" class="img-fluid shape-wthree shape-w3-five">
+				<img th:src="@{/images/shape6.png}" alt="" class="img-fluid shape-wthree shape-w3-six">
+			</div>
+			<!-- //animations effects -->
+		</div>
+		<!-- //banner -->
+	</div>
+	<!-- //main banner -->
+
+	<!-- what we do section -->
+	<div class="what bg-li py-5" id="what">
+		<div class="container py-xl-5 py-lg-3">
+			<div class="row about-bottom-w3l text-center mt-4">
+				<div class="col-lg-4 about-grid">
+					<div class="about-grid-main">
+						<img th:src="@{/images/img1.png}" alt="" class="img-fluid">
+						<h4 class="my-4">AI测评</h4>
+						<p> 用人工智能技术，让你更加了解自己，及时查漏补缺。</p>
+						<a href="http://www.findai.wang:8881/" class="button-w3ls btn mt-sm-5 mt-4">详情</a>
+					</div>
+				</div>
+				<div class="col-lg-4 about-grid my-lg-0 my-5">
+					<div class="about-grid-main">
+						<img th:src="@{/images/img2.png}" alt="" class="img-fluid">
+						<h4 class="my-4">大数据</h4>
+						<p> 看清眼前的形势，走好脚下的路。</p>
+						<a href="http://www.findai.wang:8881/" class="button-w3ls btn mt-sm-5 mt-4">详情</a>
+					</div>
+				</div>
+				<div class="col-lg-4 about-grid">
+					<div class="about-grid-main">
+						<img th:src="@{/images/img3.png}" alt="" class="img-fluid">
+						<h4 class="my-4">互动社区</h4>
+						<p> 你一嘴我一嘴，让你我更接近真相。</p>
+						<a href="bbs" class="button-w3ls btn mt-sm-5 mt-4">详情</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- //what we do section -->
+
+	<!-- middle -->
+	<section class="midd-w3 py-5" id="faq">
+		<div class="container py-xl-5 py-lg-3">
+			<div class="row">
+				<div class="col-lg-6 about-right-faq">
+					<h6>Business Consultancy</h6>
+					<h3 class="text-da">5年深度扎根保研行业</h3>
+					<p class="mt-4">数万保研案例，助力走向梦想高校.</p>
+					<ul class="w3l-right-book mt-4">
+						<li>个人定位</li>
+						<li>学校/专业选择</li>
+						<li>保研辅导</li>
+						<li>就业指点</li>
+						<li>职业规划</li>
+					</ul>
+					<a href="about.html" class="btn button-style button-style-2 mt-sm-5 mt-4">详情</a>
+				</div>
+				<div class="col-lg-6 left-wthree-img text-right">
+					<img th:src="@{/images/about.png}" alt="" class="img-fluid mt-5" />
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- //middle -->
+
+
+	<!-- stats -->
+	<section class="bottom-count py-5" id="stats">
+		<div class="container py-xl-5 py-lg-3">
+			<div class="row">
+				<div class="col-lg-5 left-img-w3ls">
+					<img th:src="@{/images/b1.png}" alt="" class="img-fluid" />
+				</div>
+				<div class="col-lg-7 right-img-w3ls pl-lg-4 mt-lg-2 mt-4">
+					<div class="bott-w3ls mr-xl-5">
+						<h3 class="title-w3 text-bl mb-3 font-weight-bold">保研服务</h3>
+						<p class="title-sub-2 mb-3">数据+AI+服务 <br>小飞猫保研.</p>
+						<p>除了言传身教，我们还有数据分析，为同学们保驾护航. </p>
+					</div>
+					<div class="row mt-5">
+						<div class="col-sm-4 count-w3ls">
+							<h4>1000+</h4>
+							<p>包过服务</p>
+						</div>
+						<div class="col-sm-4 count-w3ls mt-sm-0 mt-3">
+							<h4>25000+</h4>
+							<p>咨询者</p>
+						</div>
+						<div class="col-sm-4 count-w3ls mt-sm-0 mt-3">
+							<h4>28000+</h4>
+							<p>竞赛咨询</p>
+						</div>
+					</div>
+					<div class="row mt-sm-5 mt-4">
+						<div class="col-sm-4 count-w3ls">
+							<h4>100+</h4>
+							<p>高校数据</p>
+						</div>
+						<div class="col-sm-4 count-w3ls mt-sm-0 mt-3">
+							<h4>600+</h4>
+							<p>专业数据</p>
+						</div>
+						<div class="col-sm-4 count-w3ls mt-sm-0 mt-3">
+							<h4>1000000+</h4>
+							<p>就业数据</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- //stats -->
+
+	<!-- team -->
+	<section class="team bg-li py-5" id="team">
+		<div class="container py-xl-5 py-lg-3">
+			<h3 class="tittle text-center font-weight-bold">金牌团队</h3>
+			<p class="sub-tittle text-center mt-3 mb-sm-5 mb-4">言传身教，轻松保研名校.</p>
+			<div class="row ab-info second pt-lg-4">
+				<div class="col-lg-4 col-sm-6 ab-content text-center mt-lg-0 mt-4">
+					<div class="ab-content-inner">
+						<img th:src="@{/images/t1.jpg}" alt="news image" class="img-fluid">
+						<div class="ab-info-con">
+							<h4 class="text-team-w3">小康康</h4>
+							<ul class="list-unstyled team-socil-w3pvts">
+								<p>清华大学</p>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-4 col-sm-6 ab-content text-center mt-lg-0 mt-4">
+					<div class="ab-content-inner">
+						<img th:src="@{/images/t2.jpg}" alt="news image" class="img-fluid">
+						<div class="ab-info-con">
+							<h4 class="text-team-w3">中康康</h4>
+							<ul class="list-unstyled team-socil-w3pvts">
+								<p>清华大学</p>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-4 col-sm-6 ab-content text-center mt-lg-0 mt-4">
+					<div class="ab-content-inner">
+						<img th:src="@{/images/t3.jpg}" alt="news image" class="img-fluid">
+						<div class="ab-info-con">
+							<h4 class="text-team-w3">大康康</h4>
+							<ul class="list-unstyled team-socil-w3pvts">
+								<p>清华大学</p>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- //team -->
+
+
+	<!-- copyright bottom -->
+	<div class="copy-bottom bg-li py-4 border-top">
+		<div class="container-fluid">
+			<div class="d-md-flex px-md-3 position-relative text-center">
+				<!-- footer social icons -->
+				<div class="social-icons-footer mb-md-0 mb-3">
+					<ul class="list-unstyled">
+						<li>
+							<a href="#">
+								<span class="fa fa-facebook"></span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<span class="fa fa-twitter"></span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<span class="fa fa-google-plus"></span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<span class="fa fa-instagram"></span>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<!-- //footer social icons -->
+				<!-- copyright -->
+				<div class="copy_right mx-md-auto mb-md-0 mb-3">
+					<p class="text-bl let">© 2019 小飞猫保研. All rights reserved | Design by
+						<a href="#" target="_blank">XKK</a>
+						<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1278274096'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s9.cnzz.com/z_stat.php%3Fid%3D1278274096%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
+					</p>
+					<p class="text-muted">皖ICP备19023499号
+					</p>
+				</div>
+				<!-- //copyright -->
+				<!-- move top icon -->
+				<a href="#home" class="move-top text-center">
+					<span class="fa fa-level-up" aria-hidden="true"></span>
+				</a>
+				<!-- //move top icon -->
+			</div>
+		</div>
+	</div>
+	<!-- //copyright bottom -->
+</body>
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+</html>

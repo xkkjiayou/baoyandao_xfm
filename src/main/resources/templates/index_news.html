@@ -1,0 +1,137 @@
+﻿<!doctype html>
+<!--
+	Solution by GetTemplates.co
+	URL: https://gettemplates.co
+-->
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <meta name="keywords" content="保研,推免,保研案例,保研学长,保研咨询,保研服务,保研大数据,高校选择,去哪个学校好,研究生推免,研究生报送,预推免,读研,考研资料,一对一服务,保研论坛,保研社区,保研高校,推免社区,小飞猫,小飞猫保研,小飞猫教育,教育" />
+    <meta name="description" content="为高校学子提供保研信息查询，保研经验交流，本站有3000+保研前辈的经验分享，数十万保研案例，百万保研大数据，实时更新保研资讯，不再错过保研机会。为你提供个人定位咨询，人工智能保研服务。小飞猫保研，你值得拥有。"/>
+    <meta name="mobile-web-app-capable" content="yes"/>
+    <!-- awesone fonts css-->
+    <link href="{{ url_for('static', filename='css/font-awesome.css') }}" rel="stylesheet" type="text/css">
+    <!-- owl carousel css-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='owl-carousel/assets/owl.carousel.min.css') }}" type="text/css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <!-- custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>个人定位系统-小飞猫大数据中心</title>
+    <style>
+
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light bg-transparent" id="gtco-main-nav">
+    <div class="container"><a class="navbar-brand">A&B Lab</a>
+        
+    </div>
+</nav>
+<div class="container-fluid gtco-banner-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h1><span>AI+Big Data</span> <br/>
+				小飞猫保研. </h1>
+                <p> 查高校，查专业，找定位.<br/>通通帮你解决. </p></div>
+            <div class="col-md-6">
+                <div class="card"><img class="card-img-top img-fluid" src="{{ url_for('static', filename='images/banner-img.png') }}" alt=""></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container-fluid" id="gtco-footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6" id="contact">
+                <h4> 告诉岛主一些你的事情吧 </h4>
+				<form method='post' action="{{ url_for('recommend')}}">
+					<input type="text" name='myuniversity' class="form-control" placeholder="本科学校名称">
+					<input type="text" name='mymajor' class="form-control" placeholder="本科专业名称">
+					<input type="text" name='myrank' class="form-control" placeholder="专业排名，输入示例：20/126">
+					<textarea class="form-control"  name='myintroduction' placeholder="自我介绍"></textarea>
+					<input type='submit' class="submit-button" value='提交  >'   ></input>
+				</form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid gtco-features-list">
+    <div class="container">
+        <div class="row">
+            <div class="media col-md-6 col-lg-4">
+                <div class="oval mr-4"><img class="align-self-start" src="{{ url_for('static', filename='images/quality-results.png') }}" alt=""></div>
+                <div class="media-body">
+                    <h5 class="mb-0">多年行业扎根</h5>
+                    小飞猫保研立足于保研行业多年，旗下前辈遍布各大高校.
+                </div>
+            </div>
+            <div class="media col-md-6 col-lg-4">
+                <div class="oval mr-4"><img class="align-self-start" src="{{ url_for('static', filename='images/analytics.png') }}" alt=""></div>
+                <div class="media-body">
+                    <h5 class="mb-0">海量大数据定位</h5>
+                    多年高校数据积累，秒速定位解决困扰.
+                </div>
+            </div>
+            <div class="media col-md-6 col-lg-4">
+                <div class="oval mr-4"><img class="align-self-start" src="{{ url_for('static', filename='images/easy-to-use.png') }}" alt=""></div>
+                <div class="media-body">
+                    <h5 class="mb-0">豪华AI团队</h5>
+                    来自清北，中科院，中科大的人工智能研发团队，为你保驾护航.
+                </div>
+            </div>
+            <div class="media col-md-6 col-lg-4">
+                <div class="oval mr-4"><img class="align-self-start" src="{{ url_for('static', filename='images/free-support.png') }}" alt=""></div>
+                <div class="media-body">
+                    <h5 class="mb-0">亲密服务管家</h5>
+                    数万前辈贴心为您服务，让您放心的不懂就问.
+                </div>
+            </div>
+            <div class="media col-md-6 col-lg-4">
+                <div class="oval mr-4"><img class="align-self-start" src="{{ url_for('static', filename='images/effectively-increase.png') }}" alt=""></div>
+                <div class="media-body">
+                    <h5 class="mb-0">无数成功案例</h5>
+                    多年来，无数学子通过小飞猫保研顺利进入梦想高校.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<footer class="container-fluid">
+    <div class="container">
+        <div class="row">            
+            <div class="col-lg-6">
+                <div class="row">               
+                    <div class="col-12">
+                        <p>&copy; 2019. All Rights Reserved. Design by XKK.</p>
+                        <p class="text-muted">皖ICP备19023499号
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+</body>
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+</html>

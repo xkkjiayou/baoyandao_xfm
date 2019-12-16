@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <meta name="keywords" content="保研,推免,保研案例,保研学长,保研咨询,保研服务,保研大数据,高校选择,去哪个学校好,研究生推免,研究生报送,预推免,读研,考研资料,一对一服务,保研论坛,保研社区,保研高校,推免社区,小飞猫,小飞猫保研,小飞猫教育,教育" />
+    <meta name="description" content="为高校学子提供保研信息查询，保研经验交流，本站有3000+保研前辈的经验分享，数十万保研案例，百万保研大数据，实时更新保研资讯，不再错过保研机会。为你提供个人定位咨询，人工智能保研服务。小飞猫保研，你值得拥有。"/>
+    <meta name="mobile-web-app-capable" content="yes"/>
+    <!-- awesone fonts css-->
+    <link th:href="@{/news/css/font-awesome.css}" rel="stylesheet" type="text/css">
+    <!-- owl carousel css-->
+    <link rel="stylesheet" th:href="@{/news/owl-carousel/assets/owl.carousel.min.css}" type="text/css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{/news/css/bootstrap.min.css}">
+    <!-- custom CSS -->
+    <link rel="stylesheet" th:href="@{/news/css/style.css}">
+    <title th:text="'小飞猫保研-'+${university.universityname}+${university.tags_xuewei}+'等信息'"></title>
+    <style>
+
+    </style>
+<!-- </head> -->
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light bg-transparent" id="gtco-main-nav">
+    <div class="container"><a class="navbar-brand">A&B Lab</a>
+        
+    </div>
+</nav>
+<div class="container-fluid gtco-banner-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h1><span>AI+Big Data</span> <br/>
+				小飞猫保研. </h1>
+                <p> 查高校，查专业，找定位.<br/>通通帮你解决. </p></div>
+            <div class="col-md-6">
+                <div class="card"><img class="card-img-top img-fluid" th:src="@{/news/images/banner-img.png}" alt=""></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid gtco-feature" id="services">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="cover">
+                    <div class="card">
+                        <!-- *************-->
+                        <svg width="100%" viewBox="0 0 700 500">
+                            <!-- xlink:href for modern browsers, src for IE8- -->
+                            <image clip-path="url(#clip-path)" th:href="${university.logo}" width="100%"
+                                   height="365" class="svg__image"></image>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <h2 th:text="${university.universityname}">  </h2>
+                <p th:text="${university.university_introducation}"></p>
+            </div>
+        </div>
+    </div>
+</div>
+<!--<div class="container-fluid gtco-numbers-block">-->
+<!--    <div class="container">-->
+<!--        <svg width="100%" viewBox="0 0 1600 400">-->
+<!--            <defs>-->
+<!--                <linearGradient id="PSgrad_03" x1="80.279%" x2="0%"  y2="0%">-->
+<!--                    <stop offset="0%" stop-color="rgb(1,230,248)" stop-opacity="1" />-->
+<!--                    <stop offset="100%" stop-color="rgb(29,62,222)" stop-opacity="1" />-->
+
+<!--                </linearGradient>-->
+
+<!--            </defs>-->
+<!--            &lt;!&ndash; <clipPath id="clip-path3">-->
+
+<!--                                      </clipPath> &ndash;&gt;-->
+
+<!--            <path fill-rule="evenodd"  fill="url(#PSgrad_03)"-->
+<!--                  d="M98.891,386.002 L1527.942,380.805 C1581.806,380.610 1599.093,335.367 1570.005,284.353 L1480.254,126.948 C1458.704,89.153 1408.314,59.820 1366.025,57.550 L298.504,0.261 C238.784,-2.944 166.619,25.419 138.312,70.265 L16.944,262.546 C-24.214,327.750 12.103,386.317 98.891,386.002 Z"></path>-->
+
+<!--            <clipPath id="ctm" fill="none">-->
+<!--                <path-->
+<!--                        d="M98.891,386.002 L1527.942,380.805 C1581.806,380.610 1599.093,335.367 1570.005,284.353 L1480.254,126.948 C1458.704,89.153 1408.314,59.820 1366.025,57.550 L298.504,0.261 C238.784,-2.944 166.619,25.419 138.312,70.265 L16.944,262.546 C-24.214,327.750 12.103,386.317 98.891,386.002 Z"></path>-->
+<!--            </clipPath>-->
+
+<!--            &lt;!&ndash; xlink:href for modern browsers, src for IE8- &ndash;&gt;-->
+<!--            <image  clip-path="url(#ctm)" th:href="@{/news/images/word-map.png}" height="800px" width="100%" class="svg__image">-->
+
+<!--            </image>-->
+
+<!--        </svg>-->
+<!--        <div class="row">-->
+<!--            <div class="col-6">-->
+<!--                <div class="card">-->
+<!--                    <div class="card-body">-->
+<!--                        <h5 class="card-title" th:text="${university.universityrank}"></h5>-->
+<!--                        <p class="card-text">Ranking</p>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="col-6">-->
+<!--                <div class="card">-->
+<!--                    <div class="card-body">-->
+<!--                        <h5 class="card-title" th:text="${922-university.universityrank}*13"></h5>-->
+<!--                        <p class="card-text"> Hot</p>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+<div th:if=" ${university.summers!=null}" style="margin-bottom:150px;margin-top:100px;">
+    <div class="container-fluid ">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h1>
+                        夏令营专区. </h1>
+                    <p> 夏令营消息速递.<br/>小飞猫帮你搜罗万象. </p></div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid gtco-features-list" style="margin-top: 50px;"  >
+        <div class="container">
+            <div class="row">
+                <div class="media col-md-6 col-lg-4" th:each="summer :${university.summers}">
+                    <div class="oval mr-4"><img class="align-self-start" th:src="@{/news/images/quality-results.png}" alt=""></div>
+                        <div class="media-body">
+                            <h5 class="mb-0" th:text="${summer.summername}">
+                                <a th:href="'/summer/'+${summer.summerid}">北大夏令营</a>
+                            </h5>
+                            截止日期：<span th:text="${summer.endtime}"></span><br/>
+                            <a th:href="'/summer/'+${summer.summerid}" target="_blank">
+                                查看详情
+                            </a><br/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:if="${university.guides!=null}" style="margin-bottom:150px;margin-top:150px;">
+    <div class="container-fluid ">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h1>
+                        保研招生简章专区. </h1>
+                    <p> 招生要求都在这里啦.<br/>小飞猫帮你搜罗万象. </p></div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid gtco-features-list" style="margin-top: 50px;"  >
+        <div class="container">
+            <div class="row">
+                <div class="media col-md-6 col-lg-4" th:each="guide :${university.guides}">
+                    <div class="oval mr-4"><img class="align-self-start" th:src="@{/news/images/quality-results.png}" alt=""></div>
+                    <div class="media-body">
+                        <h5 class="mb-0" th:text="${guide.guidename}">
+                            <a th:href="'/guide/'+${guide.guideid}">简章</a>
+                        </h5>
+                        日期：<span th:text="${guide.datetime}"></span><br/>
+                        <a th:href="'/guide/'+${guide.guideid}" target="_blank">
+                            查看详情
+                        </a><br/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid gtco-features" id="about" th:if="not ${#strings.isEmpty(university.tags)}">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4">
+                <h2> 特色专业 </h2>
+                <p th:text="${university.tags}"> </p>
+                <p th:text="${university.tags_xuewei}"> </p>
+                <a ><strong style='color:#ffffff'>Best</strong> <i class="fa fa-angle-right" aria-hidden="true"></i></a></div>
+            <div class="col-lg-8">
+                <svg id="bg-services"
+                     width="100%"
+                     viewBox="0 0 1000 800">
+                    <defs>
+                        <linearGradient id="PSgrad_02" x1="64.279%" x2="0%" y1="76.604%" y2="0%">
+                            <stop offset="0%" stop-color="rgb(1,230,248)" stop-opacity="1"/>
+                            <stop offset="100%" stop-color="rgb(29,62,222)" stop-opacity="1"/>
+                        </linearGradient>
+                    </defs>
+                    <path fill-rule="evenodd" opacity="0.102" fill="url(#PSgrad_02)"
+                          d="M801.878,3.146 L116.381,128.537 C26.052,145.060 -21.235,229.535 9.856,312.073 L159.806,710.157 C184.515,775.753 264.901,810.334 338.020,792.380 L907.021,652.668 C972.912,636.489 1019.383,573.766 1011.301,510.470 L962.013,124.412 C951.950,45.594 881.254,-11.373 801.878,3.146 Z"/>
+                </svg>
+                <div class="row">
+                    <div class="col">
+                        <div class="card text-center">
+                            <div class="oval"><img class="card-img-top" th:src="${university.logo}" alt=""></div>
+                            <div class="card-body">
+                                <p class="card-text" th:utext="${university.special_major}">
+								</p>
+                            </div>
+							<br/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid gtco-news" id="news" th:if="${relative_posts!=null}">
+    <div class="container">
+        <h2>热议 & 新闻</h2>
+        <div class="owl-carousel owl-carousel2 owl-theme">
+<!--            帖子Item stat-->
+            <div th:each="post:${relative_posts}">
+                <div class="card text-center"><img class="card-img-top" src="images/news1.jpg" alt="">
+                    <div class="card-body text-left pr-0 pl-0">
+                        <h5 th:text="${post.title}"> </h5>
+                        <p style="font-size:14px">热议词嗅探：</p>
+
+                        <p class="card-text" th:text="${post.keyword_seg}"></p>
+                        <p style="font-size:14px" th:text="${post.datetime}">热议词嗅探：</p>
+                        <a th:href="'/post/'+${post.postid}">查看详情<i class="fa fa-angle-right" aria-hidden="true"></i></a>
+                    </div>
+                </div>
+            </div>
+<!--            帖子Item end-->
+        </div>
+    </div>
+</div>
+
+
+
+
+<footer class="container-fluid" id="gtco-footer">
+    <div class="container">
+        <div class="row">            
+            <div class="col-lg-6">
+                <div class="row">               
+                    <div class="col-12">
+                        <p>&copy; 2019. All Rights Reserved. Design by XKK.</p>
+                        <p class="text-muted">皖ICP备19023499号
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script th:src="@{/news/js/jquery-3.3.1.slim.min.js}"></script>
+<script th:src="@{/news/js/popper.min.js}"></script>
+<script th:src="@{/news/js/bootstrap.min.js}"></script>
+<!-- owl carousel js-->
+<script th:src="@{/news/owl-carousel/owl.carousel.min.js}"></script>
+<script th:src="@{/news/js/main.js}"></script>
+</body>
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+</html>

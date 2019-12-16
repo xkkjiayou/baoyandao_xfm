@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <title>小飞猫保研-我的资料-梦想今日实现</title>
+    <!-- Meta tag Keywords -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8" />
+    <meta name="keywords" content="保研,推免,保研案例,保研学长,保研咨询,保研服务,保研大数据,高校选择,去哪个学校好,研究生推免,研究生报送,预推免,读研,考研资料,一对一服务,保研论坛,保研社区,保研高校,推免社区,小飞猫,小飞猫保研,小飞猫教育,教育" />
+    <meta name="description" content="为高校学子提供保研信息查询，保研经验交流，本站有3000+保研前辈的经验分享，数十万保研案例，百万保研大数据，实时更新保研资讯，不再错过保研机会。为你提供个人定位咨询，人工智能保研服务。小飞猫保研，你值得拥有。"/>
+    <meta name="mobile-web-app-capable" content="yes"/>
+    <!-- //Meta tag Keywords -->
+
+    <!-- Custom-Files -->
+    <link rel="stylesheet" th:href="@{css/bootstrap.css}">
+    <!-- Bootstrap-Core-CSS -->
+    <link rel="stylesheet" th:href="@{css/style.css}" type="text/css" media="all" />
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+    <!-- Style-CSS -->
+    <link th:href="@{css/font-awesome.min.css}" rel="stylesheet">
+    <!-- Font-Awesome-Icons-CSS -->
+    <!-- //Custom-Files -->
+
+
+</head>
+
+<body style="background-color:#eee">
+<!-- main banner -->
+<div class="main-top" id="home1">
+    <!-- header -->
+    <header>
+        <div class="container-fluid">
+            <div class="header d-lg-flex justify-content-between align-items-center py-3 px-sm-3">
+                <!-- logo -->
+                <div id="logo">
+                    <h1><a href="/index"><img src="/byd_web_ui/logo.png" style="height: 50px;"/></a></h1>
+                </div>
+                <!-- //logo -->
+                <!-- nav -->
+                <div class="nav_w3ls">
+                    <nav>
+                        <label for="drop" class="toggle">Menu</label>
+                        <input type="checkbox" id="drop" />
+                        <ul class="menu">
+                            <li><a href="/index" class="active">首页</a></li>
+                            <li><a href="/bbs">讨论区</a></li>
+                            <li><a href="/university">资讯库
+                                <span class="tag-hot" style="background-color:#df2717;">
+                                    <img src="/byd_web_ui/recommend_icon.png" alt="" style="width:20px">
+                                    <span>智!</span>
+                                </span></a></li>
+                            <li>
+                                <!-- First Tier Drop Down -->
+                                <label for="drop-2" class="toggle toogle-2">题库 <span class="fa fa-angle-down" aria-hidden="true"></span>
+                                </label>
+                                <a href="#">文库 <span class="fa fa-angle-down" aria-hidden="true"></span></a>
+                                <input type="checkbox" id="drop-2" />
+                                <ul>
+                                    <li><a href="/bbs/1/666/11" class="drop-text">各种排行</a></li>
+                                    <li><a href="/bbs/1/666/21" class="drop-text">导师信息库
+                                        <span class="tag-hot" >
+                                                <img src="/byd_web_ui/niming_icon.png" alt="" style="width:15px">
+                                                <span>匿!</span>
+                                            </span></a></li>
+                                </ul>
+                            </li>
+                            <li><a href="http://www.findai.wang:8881/">AI定位</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <!-- //nav -->
+                <div class="d-flex mt-lg-1 mt-sm-2 mt-3 justify-content-center">
+                    <!-- search -->
+                    <div class="search-w3layouts mr-3">
+                        <form action="/bbs_search" method="get" class="search-bottom-wthree d-flex">
+                            <input class="search" type="search" placeholder="懂你所指，搜搜Anything..." required="" name="keyword"  id="keyword" oninput="getuniversityname();">
+                            <button class="form-control btn" type="submit"><span class="fa fa-search"></span></button>
+                        </form>
+                        <ul id="ul_university" class="list-module" style="background-image:url('/byd_web_ui/recommend_university_bg.jpg') ;background-size:100% 100%;text-align:center;position: absolute;z-index: 11;"></ul>
+                        <script>
+								//智能搜索框,语义识别
+								function getuniversityname(){
+									var keyword1 = $('#keyword').val();
+									$('#ul_university li').remove();
+									$.ajax({
+										type:"post",
+										url:"/getsuggestsearch",
+										data:{keyword:keyword1},
+										dataType:'json',//dataType:"json",使得返回来的数据格式为json 如果不 添加该条属性，则返回来的为字符串
+										success:function(data){
+											$('#ul_university').show();
+											//alert(data["status"]) //取值可以.key值
+											//alert(data["message"]) //取值可以.key值
+											//alert(data);
+											//window.location.reload();
+
+									　　　　for (var i = 0; i < data.suggestsearch.length; i++) {
+										　　　　//如果在select中传递其他参数，可以在option 的value属性中添加参数
+												$("#ul_university").append("<li style='background-color:#ffffffcc;padding:8px' onclick='showoninput("+"\""+data.suggestsearch[i]+"\""+");'>"+data.suggestsearch[i]+"</li>");
+											}
+										},
+										error:function(data){
+											$('#ul_university').hide();
+											alert("error");
+											alert(data);
+										}
+									})
+									}
+									function showoninput(name){
+										$('#ul_university li').remove();
+										$('#keyword').val(name);
+										$('#ul_university').hide();
+									}
+							</script>
+                    </div>
+                    <!-- //search -->
+                    <!-- download -->
+                    <span th:if="${session.USER == null}">
+								<a class="dwn-w3ls btn" href="/login" target="_blank">
+									<span style="color:#fff">登录/注册</span>
+								</a>
+							</span>
+                    <span th:if="${session.USER != null}">
+								<div class="nav_w3ls">
+									<nav>
+										<ul class="menu">
+											<li>
+												<label for="drop-3" class="toggle toogle-2"><span class="fa fa-angle-down" aria-hidden="true"></span>
+												</label>
+												<a href="#" class="dwn-w3ls btn" style="color:#fff"><span th:text="${session.USER.nickname}"></span>
+                                                    <span class="badge" th:text="${session.USER.message_nums}" th:if="${session.USER.message_nums>0}">0</span>
+                                                    <span class="fa fa-angle-down" aria-hidden="true"></span></a>
+												<input type="checkbox" id="drop-3" />
+												<ul>
+													<li><a href="/user_info" class="drop-text">个人中心
+                                                    <span class="badge" th:text="${session.USER.message_nums}" th:if="${session.USER.message_nums>0}">0</span>
+                                                    </a></li>
+													<li><a href="#" class="drop-text">礼物兑换</a></li>
+													<li><a href="/logout" class="drop-text">退出</a></li>
+												</ul>
+											</li>
+										</ul>
+									</nav>
+								</div>
+
+							</span>
+
+                    <!-- //download -->
+                </div>
+            </div>
+        </div>
+    </header>
+</div>
+
+<div class="icon-effects-w3l">
+    <img th:src="@{images/shape1.png}" alt="" class="img-fluid shape-wthree shape-w3-one">
+    <img th:src="@{images/shape2.png}" alt="" class="img-fluid shape-wthree shape-w3-two">
+    <img th:src="@{images/shape3.png}" alt="" class="img-fluid shape-wthree shape-w3-three">
+    <img th:src="@{images/shape5.png}" alt="" class="img-fluid shape-wthree shape-w3-four">
+    <img th:src="@{images/shape4.png}" alt="" class="img-fluid shape-wthree shape-w3-five">
+    <img th:src="@{images/shape6.png}" alt="" class="img-fluid shape-wthree shape-w3-six">
+</div>
+    <!--//login-->
+    <div align="center" style="text-align:center;margin:50px auto;padding:50px auto">
+        <div class="container py-xl-5 py-lg-3">
+            <!-- subscribe -->
+            <div class="subscribe mx-auto mytouxiangpanel">
+                <div >
+                    <img th:src="${session.USER.touxiang}" class="icon-effect-w3" alt="头像" onclick="show_uploadform();">
+                    <script>
+                        function show_uploadform(){
+                            $('#formtouxiang').show();
+                            $('#file').click();
+                        }
+                    </script>
+                </div>
+                <div class="university_age_panel">
+                    <h2 class="tittle text-center font-weight-bold "><span th:text="${session.USER.nickname}"></span></h2>
+                    <br/>
+                    <p class="sub-tittle text-center mt-3 mb-sm-5 mb-4 ">
+                        <span th:text="${session.USER.university}"></span>
+                        |<span th:text="${session.USER.age}"></span>
+                        |<span th:text="${session.USER.major}"></span>
+                    </p>
+                </div>
+            </div>
+            <div>
+<!--                上传头像-->
+                <form id="formtouxiang" method="post" enctype="multipart/form-data" action="fileUpload" style="display:none;">
+                    <input name="file" type="file" class="file" id="file" style="display:none;" onchange="upload_touxiang();"/>
+                    <input type="submit" id="submit_touxiang"  style="display:none;" />
+                </form>
+                <script>
+                    function upload_touxiang(){
+                        $('#submit_touxiang').click();
+                    }
+                </script>
+            </div>
+<!--            主板块-->
+            <div>
+                <div class="main-top" id="home">
+                    <!-- header -->
+                    <header>
+                        <div class="container-fluid">
+                            <div class="header d-lg-flex justify-content-between align-items-center py-3 px-sm-3">
+                                <div class="nav_w3ls">
+                                    <nav>
+                                        <label for="drop1" class="toggle">我的面板</label>
+                                        <input type="checkbox" id="drop1" />
+                                        <ul class="menu">
+                                            <li><a id="a_recurrent_view_post_panel" href="javascript:void(0);" class="active">最近浏览</a></li>
+                                            <li><a id="a_collect_post_panel" href="javascript:void(0);" data-toggle="tab">我的收藏</a></li>
+                                            <li><a id="a_unview_message_panel" href="javascript:void(0);" data-toggle="tab">我的消息
+                                                <span class="badge" th:text="${message_nums}" th:if="${message_nums>0}" style="color:#fff">0</span>
+                                            </a></li>
+<!--                                            <li><a href="#javascript:void(0);" data-toggle="tab">我的简历</a></li>-->
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                    </header>
+                    <div style="box-shadow: 0.33333rem 0 1.33333rem rgba(87, 87, 87, .1);">
+                        <!-- 最近浏览 start-->
+                        <div class="postlist module-head" id="recurrent_view_post_panel" style="border-radius:0;margin-top:20px;">
+                            <ul class="bbs-commonlist">
+                                <li class="bbs-clearfix" th:each="view_post_record:${recurrent_view_posts}">
+                                    <a class="bbs-touxiang" th:href="'/view_user_info/'+${view_post_record.post.user.userid}"><img th:src="${view_post_record.post.user.touxiang}" class="bbs-touxiang"></a>
+                                    <div  class="reply-box js-sub-cmt-list"><a th:href="'/post/'+${view_post_record.postid}"><span th:text="${view_post_record.post.title}">大家好，我是肥康康 初来驾到</span></a></div>
+                                    <div class="feed-origin"><p class="feed-foot"><a th:href="'/view_user_info/'+${view_post_record.post.user.userid}" >发帖人：<span th:text="${view_post_record.post.user.nickname}">肥康康</span></a>&nbsp;&nbsp;
+<!--                                        最近一次浏览于：<span th:text="${view_post_record.post.datetime}">2019-11-05 07:49:30.0</span>-->
+                                    </p></div>
+                                    <div class="feed-legend">
+                                        <span th:if="${view_post_record.nums>1}">
+                                            <span>您反复浏览了<span class="feed-legend-num" style="color:#ff0000;" th:text="${view_post_record.nums}"></span>次</span>
+                                        </span>
+
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <!--最近浏览 end-->
+
+                        <!-- 最近收藏 start-->
+                        <div class="postlist module-head" id="collect_post_panel" style="border-radius:0;margin-top:20px;">
+                            <ul class="bbs-commonlist">
+                                <li class="bbs-clearfix" th:each="view_post_record:${recurrent_view_posts}">
+                                    <a class="bbs-touxiang" href="/view_user_info/8"><img th:src="${view_post_record.post.user.touxiang}" class="bbs-touxiang"></a>
+                                    <div class="reply-box js-sub-cmt-list"><a th:href="'/post/'+${view_post_record.postid}"><span th:text="${view_post_record.post.title}">大家好，我是肥康康 初来驾到</span></a></div>
+                                    <div class="feed-origin"><p class="feed-foot"><a th:href="'/view_user_info/'+${view_post_record.post.user.userid}" ><span th:text="${view_post_record.post.user.nickname}">肥康康</span></a>&nbsp;&nbsp;收藏于：<span th:text="${view_post_record.post.datetime}">2019-11-05 07:49:30.0</span></p></div>
+                                </li>
+                            </ul>
+                        </div>
+                        <!--最近收藏 end-->
+
+                        <!-- 未读消息 start-->
+                        <div class="postlist module-head" id="unview_message_panel" style="border-radius:0;margin-top:20px;">
+                            <ul class="bbs-commonlist">
+                                <li class="bbs-clearfix" th:each="message:${messages}">
+                                    <a class="bbs-touxiang" th:href="'/view_user_info/'+${message.fromuserid}"><img th:src="${message.fromuser.touxiang}" class="bbs-touxiang"></a>
+                                    <div>
+                                        <div><a th:href="'/post/'+${message.postid}+'/'+${message.messageid}">在&nbsp;<span th:text="${message.post.title}">大家好，我是肥康康 初来驾到</span>&nbsp;帖子下，回复了您：</a></div>
+                                        <div class="reply-box js-sub-cmt-list"><a th:href="'/post/'+${message.postid}"><span class="text-limit" th:text="${message.content}">大家好，我是肥康康 初来驾到</span></a></div>
+                                        <div class="feed-origin"><p class="feed-foot">FROM:<a th:href="'/view_user_info/'+${message.fromuserid}" ><span th:text="${message.fromuser.nickname}">肥康康</span></a>&nbsp;&nbsp;<span th:text="${message.datetime}">2019-11-05 07:49:30.0</span></p></div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <!--未读消息 end-->
+                    </div>
+
+                    <script>
+                        //用来切换我的中心面板
+                        $('#collect_post_panel').hide();
+                        $('#a_collect_post_panel').hide();
+                        $('#unview_message_panel').hide();
+                        $('#a_recurrent_view_post_panel').click(function(){
+                            $('#recurrent_view_post_panel').show();
+                            $('#a_recurrent_view_post_panel').addClass('active');
+                            $('#collect_post_panel').hide();
+                            $('#a_collect_post_panel').removeClass('active');
+                            $('#unview_message_panel').hide();
+                            $('#a_unview_message_panel').removeClass('active');
+                        });
+                        $('#a_collect_post_panel').click(function(){
+                            $('#recurrent_view_post_panel').hide();
+                            $('#a_recurrent_view_post_panel').removeClass('active');
+                            $('#collect_post_panel').show();
+                            $('#a_collect_post_panel').addClass('active');
+                            $('#unview_message_panel').hide();
+                            $('#a_unview_message_panel').removeClass('active');
+                        });
+                        $('#a_unview_message_panel').click(function(){
+                            $('#recurrent_view_post_panel').hide();
+                            $('#a_recurrent_view_post_panel').removeClass('active');
+                            $('#collect_post_panel').hide();
+                            $('#a_collect_post_panel').removeClass('active');
+                            $('#unview_message_panel').show();
+                            $('#a_unview_message_panel').addClass('active');
+                        });
+                    </script>
+                </div>
+            </div>
+            <!-- //subscribe -->
+        </div>
+    </div>
+    <!--//login-->
+    <!-- copyright bottom -->
+    <div class="copy-bottom bg-li py-4 border-top">
+        <div class="container-fluid">
+            <div class="d-md-flex px-md-3 position-relative text-center">
+                <!-- footer social icons -->
+                <div class="social-icons-footer mb-md-0 mb-3">
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="#">
+                                <span class="fa fa-facebook"></span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span class="fa fa-twitter"></span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span class="fa fa-google-plus"></span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span class="fa fa-instagram"></span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- //footer social icons -->
+                <!-- copyright -->
+                <div class="copy_right mx-md-auto mb-md-0 mb-3">
+                    <p class="text-bl let">© 2019 小飞猫保研. All rights reserved | Design by
+                        <a href="#" target="_blank">XKK</a>
+                        <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1278274096'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s9.cnzz.com/z_stat.php%3Fid%3D1278274096%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
+                    </p>
+                    <p class="text-muted">皖ICP备19023499号
+                    </p>
+                </div>
+                <!-- //copyright -->
+                <!-- move top icon -->
+                <a href="#home" class="move-top text-center">
+                    <span class="fa fa-level-up" aria-hidden="true"></span>
+                </a>
+                <!-- //move top icon -->
+            </div>
+        </div>
+    </div>
+    <!-- //copyright bottom -->
+
+</body>
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+</html>

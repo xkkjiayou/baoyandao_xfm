@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <title>小飞猫保研-登录-梦想今日实现</title>
+    <!-- Meta tag Keywords -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8" />
+    <meta name="keywords" content="保研,推免,保研案例,保研学长,保研咨询,保研服务,保研大数据,高校选择,去哪个学校好,研究生推免,研究生报送,预推免,读研,考研资料,一对一服务,保研论坛,保研社区,保研高校,推免社区,小飞猫,小飞猫保研,小飞猫教育,教育" />
+    <meta name="description" content="为高校学子提供保研信息查询，保研经验交流，本站有3000+保研前辈的经验分享，数十万保研案例，百万保研大数据，实时更新保研资讯，不再错过保研机会。为你提供个人定位咨询，人工智能保研服务。小飞猫保研，你值得拥有。"/>
+    <meta name="mobile-web-app-capable" content="yes"/>
+    <!-- //Meta tag Keywords -->
+
+    <!-- Custom-Files -->
+    <link rel="stylesheet" th:href="@{css/bootstrap.css}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <!-- Bootstrap-Core-CSS -->
+    <link rel="stylesheet" th:href="@{css/style.css}" type="text/css" media="all" />
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <!-- Style-CSS -->
+    <link th:href="@{css/font-awesome.min.css}" rel="stylesheet">
+    <!-- Font-Awesome-Icons-CSS -->
+    <!-- //Custom-Files -->
+
+</head>
+<style>
+    :root {
+  --input-padding-x: 1.5rem;
+  --input-padding-y: 0.75rem;
+}
+
+.login,
+.image {
+  min-height: 100vh;
+}
+
+.bg-image {
+  background-image: url('/byd_web_ui/login_bg.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+.login-heading {
+  font-weight: 300;
+}
+
+.btn-login {
+  font-size: 0.9rem;
+  letter-spacing: 0.05rem;
+  padding: 0.75rem 1rem;
+  border-radius: 2rem;
+}
+
+.form-label-group {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.form-label-group>input,
+.form-label-group>label {
+  padding: var(--input-padding-y) var(--input-padding-x);
+  height: auto;
+  border-radius: 2rem;
+}
+
+.form-label-group>label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  width: 100%;
+  margin-bottom: 0;
+  /* Override default `<label>` margin */
+  line-height: 1.5;
+  color: #495057;
+  cursor: text;
+  /* Match the input under the label */
+  border: 1px solid transparent;
+  border-radius: .25rem;
+  transition: all .1s ease-in-out;
+}
+
+.form-label-group input::-webkit-input-placeholder {
+  color: transparent;
+}
+
+.form-label-group input:-ms-input-placeholder {
+  color: transparent;
+}
+
+.form-label-group input::-ms-input-placeholder {
+  color: transparent;
+}
+
+.form-label-group input::-moz-placeholder {
+  color: transparent;
+}
+
+.form-label-group input::placeholder {
+  color: transparent;
+}
+
+.form-label-group input:not(:placeholder-shown) {
+  padding-top: calc(var(--input-padding-y) + var(--input-padding-y) * (2 / 3));
+  padding-bottom: calc(var(--input-padding-y) / 3);
+}
+
+.form-label-group input:not(:placeholder-shown)~label {
+  padding-top: calc(var(--input-padding-y) / 3);
+  padding-bottom: calc(var(--input-padding-y) / 3);
+  font-size: 12px;
+  color: #777;
+}
+
+/* Fallback for Edge
+-------------------------------------------------- */
+
+@supports (-ms-ime-align: auto) {
+  .form-label-group>label {
+    display: none;
+  }
+  .form-label-group input::-ms-input-placeholder {
+    color: #777;
+  }
+}
+
+/* Fallback for IE
+-------------------------------------------------- */
+
+@media all and (-ms-high-contrast: none),
+(-ms-high-contrast: active) {
+  .form-label-group>label {
+    display: none;
+  }
+  .form-label-group input:-ms-input-placeholder {
+    color: #777;
+  }
+}
+
+</style>
+<body style="background-color:#eee;">
+<!-- main banner -->
+
+<div class="icon-effects-w3l">
+    <img th:src="@{images/shape1.png}" alt="" class="img-fluid shape-wthree shape-w3-one">
+    <img th:src="@{images/shape2.png}" alt="" class="img-fluid shape-wthree shape-w3-two">
+    <img th:src="@{images/shape3.png}" alt="" class="img-fluid shape-wthree shape-w3-three">
+    <img th:src="@{images/shape5.png}" alt="" class="img-fluid shape-wthree shape-w3-four">
+    <img th:src="@{images/shape4.png}" alt="" class="img-fluid shape-wthree shape-w3-five">
+    <img th:src="@{images/shape6.png}" alt="" class="img-fluid shape-wthree shape-w3-six">
+</div>
+    <!--//login-->
+    <div class="container-fluid" style="background:#fff" id="home">
+        <div class="row no-gutter">
+            <div class="d-none d-md-flex col-md-4 col-lg-6 bg-image"></div>
+            <div class="col-md-8 col-lg-6">
+                <div class="login d-flex align-items-center py-5">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-9 col-lg-8 mx-auto">
+                                <img src="/byd_web_ui/logo.png" style="height: 100px;"/>
+                                <h3 class="login-heading mb-4">小飞猫保研，为梦想拼搏!</h3>
+                                <form action="/login" method="post">
+                                    <div class="form-label-group">
+                                        <input type="text" id="inputEmail" class="form-control" placeholder="请输入账号" required autofocus name="username">
+                                        <label for="inputEmail">账号</label>
+                                    </div>
+
+                                    <div class="form-label-group">
+                                        <input type="password" id="inputPassword" class="form-control" placeholder="请输入密码" required name="password">
+                                        <label for="inputPassword">密码</label>
+                                    </div>
+
+                                    <div class="alert alert-danger alert-dismissible" th:if="${error_message!=null}">
+                                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                        <strong>喵喵喵!</strong><span th:text="${error_message}"></span>
+                                        <br/>
+                                    </div>
+                                    <button class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2"  style="width:100%" type="submit">出来吧，小飞猫</button>
+                                    <div class="text-center">
+                                        <a class="small" href="/register">还没账号？点击注册</a></div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--//login-->
+    <!-- copyright bottom -->
+    <div class="copy-bottom bg-li py-4 border-top">
+        <div class="container-fluid">
+            <div class="d-md-flex px-md-3 position-relative text-center">
+                <!-- footer social icons -->
+                <div class="social-icons-footer mb-md-0 mb-3">
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="#">
+                                <span class="fa fa-facebook"></span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span class="fa fa-twitter"></span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span class="fa fa-google-plus"></span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span class="fa fa-instagram"></span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- //footer social icons -->
+                <!-- copyright -->
+                <div class="copy_right mx-md-auto mb-md-0 mb-3">
+                    <p class="text-bl let">© 2019 小飞猫保研. All rights reserved | Design by
+                        <a href="#" target="_blank">XKK</a>
+                        <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1278274096'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s9.cnzz.com/z_stat.php%3Fid%3D1278274096%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
+                    </p>
+                    <p class="text-muted">皖ICP备19023499号
+                    </p>
+                </div>
+                <!-- //copyright -->
+                <!-- move top icon -->
+                <a href="#home" class="move-top text-center">
+                    <span class="fa fa-level-up" aria-hidden="true"></span>
+                </a>
+                <!-- //move top icon -->
+            </div>
+        </div>
+    </div>
+    <!-- //copyright bottom -->
+</body>
+
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+</html>

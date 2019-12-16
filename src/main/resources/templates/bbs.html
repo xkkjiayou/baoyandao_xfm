@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <title>小飞猫保研-保研交流社区-梦想今日实现</title>
+    <!-- Meta tag Keywords -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8" />
+    <meta name="keywords" content="保研,推免,保研案例,保研学长,保研咨询,保研服务,保研大数据,高校选择,去哪个学校好,研究生推免,研究生报送,预推免,读研,考研资料,一对一服务,保研论坛,保研社区,保研高校,推免社区,小飞猫,小飞猫保研,小飞猫教育,教育" />
+    <meta name="description" content="为高校学子提供保研信息查询，保研经验交流，本站有3000+保研前辈的经验分享，数十万保研案例，百万保研大数据，实时更新保研资讯，不再错过保研机会。为你提供个人定位咨询，人工智能保研服务。小飞猫保研，你值得拥有。"/>
+    <meta name="mobile-web-app-capable" content="yes"/>
+    <!-- //Meta tag Keywords -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+
+    <script type="text/javascript" src="https://unpkg.com/wangeditor@3.1.1/release/wangEditor.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+    <script th:src="@{/js/qq_emoji.js}"></script>
+    <script th:src="@{/js/weibo_emoji.js}"></script>
+    <!-- Custom-Files -->
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <!-- Bootstrap-Core-CSS -->
+    <link rel="stylesheet" th:href="@{/css/style.css}" type="text/css" media="all" />
+    <!-- Style-CSS -->
+    <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet">
+    <!-- Font-Awesome-Icons-CSS -->
+    <!-- //Custom-Files -->
+
+</head>
+<script>
+    function showeditor(){
+        var publish_editor = document.getElementById('editor_panel');
+        var publish_btn = document.getElementById('publish_btn');
+        publish_editor.style.display = "block";
+        publish_btn.style.display = "none";
+    }
+</script>
+<body style="background-color:#eee">
+<!-- main banner -->
+<div class="main-top" id="home">
+    <!-- header -->
+    <header>
+        <div class="container-fluid">
+            <div class="header d-lg-flex justify-content-between align-items-center py-3 px-sm-3">
+                <!-- logo -->
+                <div id="logo">
+                    <h1><a href="/index"><img src="/byd_web_ui/logo.png" style="height: 50px;"/></a></h1>
+                </div>
+                <!-- //logo -->
+                <!-- nav -->
+                <div class="nav_w3ls">
+                    <nav>
+                        <label for="drop" class="toggle">Menu</label>
+                        <input type="checkbox" id="drop" />
+                        <ul class="menu">
+                            <li><a href="/index">首页</a></li>
+
+                            <li>
+                                <a href="/bbs" th:if="${cur_typeid<10}" class="active">讨论区</a>
+                                <a href="/bbs" th:if="${cur_typeid>=10}">讨论区</a>
+                            </li>
+                            <li><a href="/university">资讯库
+                                <span class="tag-hot" style="background-color:#df2717;">
+                                    <img src="/byd_web_ui/recommend_icon.png" alt="" style="width:20px">
+                                    <span>智!</span>
+                                </span></a></li>
+                            <li>
+                                <!-- First Tier Drop Down -->
+                                <label for="drop-2" class="toggle toogle-2">题库
+                                    <span class="fa fa-angle-down" aria-hidden="true"></span>
+                                </label>
+
+                                <a th:if="${cur_typeid>10}" class="active" href="#">文库
+                                    <span class="fa fa-angle-down" aria-hidden="true"></span>
+                                </a>
+                                <a th:if="${cur_typeid<=10}" href="#">文库
+                                    <span class="fa fa-angle-down" aria-hidden="true"></span>
+                                </a>
+                                <input type="checkbox" id="drop-2" />
+                                <ul>
+                                    <li><a href="/bbs/1/666/11" class="drop-text">各种排行</a></li>
+                                    <li><a href="/bbs/1/666/21" class="drop-text">导师信息库
+                                        <span class="tag-hot" >
+                                                <img src="/byd_web_ui/niming_icon.png" alt="" style="width:15px">
+                                                <span>匿!</span>
+                                            </span></a></li>
+                                </ul>
+                            </li>
+                            <li><a href="http://www.findai.wang:8881/">AI定位</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <!-- //nav -->
+                <div class="d-flex mt-lg-1 mt-sm-2 mt-3 justify-content-center">
+                    <!-- search -->
+                    <div class="search-w3layouts mr-3">
+                        <form action="/bbs_search" method="get" class="search-bottom-wthree d-flex">
+                            <input class="search" type="search" placeholder="懂你所指，搜搜Anything..." required="" name="keyword"  id="keyword" oninput="getuniversityname();">
+                            <button class="form-control btn" type="submit"><span class="fa fa-search"></span></button>
+                        </form>
+                        <ul id="ul_university" class="list-module" style="background-image:url('/byd_web_ui/recommend_university_bg.jpg');background-size:100% 100%;text-align:center;position: absolute;z-index: 11;"></ul>
+                        <script>
+								//智能搜索框,语义识别
+								function getuniversityname(){
+									var keyword1 = $('#keyword').val();
+									$('#ul_university li').remove();
+									$.ajax({
+										type:"post",
+										url:"/getsuggestsearch",
+										data:{keyword:keyword1},
+										dataType:'json',//dataType:"json",使得返回来的数据格式为json 如果不 添加该条属性，则返回来的为字符串
+										success:function(data){
+											$('#ul_university').show();
+											//alert(data["status"]) //取值可以.key值
+											//alert(data["message"]) //取值可以.key值
+											//alert(data);
+											//window.location.reload();
+
+									　　　　for (var i = 0; i < data.suggestsearch.length; i++) {
+										　　　　//如果在select中传递其他参数，可以在option 的value属性中添加参数
+												$("#ul_university").append("<li style='background-color:#ffffffcc;padding:8px' onclick='showoninput("+"\""+data.suggestsearch[i]+"\""+");'>"+data.suggestsearch[i]+"</li>");
+											}
+										},
+										error:function(data){
+											$('#ul_university').hide();
+											alert("error");
+											alert(data);
+										}
+									})
+									}
+									function showoninput(name){
+										$('#ul_university li').remove();
+										$('#keyword').val(name);
+										$('#ul_university').hide();
+									}
+							</script>
+                    </div>
+                    <!-- //search -->
+                    <!-- download -->
+                    <span th:if="${session.USER == null}">
+                        <a class="dwn-w3ls btn" href="/login" target="_blank">
+                            <span style="color:#fff">登录/注册</span>
+                        </a>
+                    </span>
+                    <span th:if="${session.USER != null}">
+								<div class="nav_w3ls">
+									<nav>
+										<ul class="menu">
+											<li>
+												<label for="drop-3" class="toggle toogle-2"><span class="fa fa-angle-down" aria-hidden="true"></span>
+												</label>
+												<a href="#" class="dwn-w3ls btn" style="color:#fff">
+                                                    <span th:text="${session.USER.nickname}"></span>
+                                                    <span class="badge" th:text="${session.USER.message_nums}" th:if="${session.USER.message_nums>0}">0</span>
+                                                    <span class="fa fa-angle-down" aria-hidden="true"></span></a>
+												<input type="checkbox" id="drop-3" />
+												<ul>
+													<li><a href="/user_info" class="drop-text">个人中心
+                                                        <span class="badge" th:text="${session.USER.message_nums}" th:if="${session.USER.message_nums>0}">0</span>
+                                                    </a></li>
+													<li><a href="faq.html" class="drop-text">礼物兑换</a></li>
+													<li><a href="/logout" class="drop-text">退出</a></li>
+												</ul>
+											</li>
+										</ul>
+									</nav>
+								</div>
+							</span>
+                    <!-- //download -->
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- //header -->
+    </div>
+
+    <div class="icon-effects-w3l">
+        <img th:src="@{/images/shape1.png}" alt="" class="img-fluid shape-wthree shape-w3-one">
+        <img th:src="@{/images/shape2.png}" alt="" class="img-fluid shape-wthree shape-w3-two">
+        <img th:src="@{/images/shape3.png}" alt="" class="img-fluid shape-wthree shape-w3-three">
+        <img th:src="@{/images/shape5.png}" alt="" class="img-fluid shape-wthree shape-w3-four">
+        <img th:src="@{/images/shape4.png}" alt="" class="img-fluid shape-wthree shape-w3-five">
+        <img th:src="@{/images/shape6.png}" alt="" class="img-fluid shape-wthree shape-w3-six">
+    </div>
+    <!--//login-->
+
+
+
+    <div align="center" class="bbs_panel">
+<!--        <div class="container py-xl-5 py-lg-3">-->
+
+        <!--轮播广告-->
+        <div id="demo" class="carousel slide" data-ride="carousel">
+
+            <!-- 指示符 -->
+            <ul class="carousel-indicators">
+                <li data-target="#demo" data-slide-to="0" class="active"></li>
+                <li data-target="#demo" data-slide-to="1"></li>
+                <li data-target="#demo" data-slide-to="2"></li>
+            </ul>
+
+            <!-- 轮播图片 -->
+            <div class="carousel-inner" >
+                <div class="carousel-item active" style="text-align:center;">
+                    <img src="/byd_ad/lunbo_ad1.jpg" style="width:100%;height:350px">
+                </div>
+                <div class="carousel-item" style="text-align:center;">
+                    <img src="/byd_ad/lunbo_ad2.jpg" style="width:100%;height:350px">
+                </div>
+                <div class="carousel-item" style="text-align:center;">
+                    <img src="/byd_ad/lunbo_ad3.jpg" style="width:100%;height:350px">
+                </div>
+            </div>
+
+            <!-- 左右切换按钮 -->
+            <a class="carousel-control-prev" href="#demo" data-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </a>
+            <a class="carousel-control-next" href="#demo" data-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </a>
+
+        </div>
+
+
+<!--内容板块-->
+        <div>
+            <!-- bbs左边栏目 -->
+            <div class="bbs-left">
+
+<!--                帖子展示区域-->
+                <div class="postlist module-head">
+                    <h2>分享与求助</h2>
+                    <br/>
+                    <div class="discuss-tab-wrap">
+                        <span th:each="type:${types}">
+                            <a  th:href="'/bbs/1/666/'+${type.typeid}" th:if="${type.typeid==cur_typeid}" class="discuss-tab selected">
+                                <span th:text="${type.typename}+'['+${type.nums}+']'"></span>
+                                <span th:if="${type.typeid == 21}" class="tag-hot">
+                                <img src="/byd_web_ui/niming_icon.png" alt="" style="width:15px">
+                                <span>匿!</span>
+                            </span>
+                            </a>
+                            <a  th:href="'/bbs/1/666/'+${type.typeid}" th:if="${type.typeid!=cur_typeid}" class="discuss-tab" >
+                                <span th:text="${type.typename}+'['+${type.nums}+']'"></span>
+                                <span th:if="${type.typeid == 21}" class="tag-hot">
+                                    <img src="/byd_web_ui/niming_icon.png" alt="" style="width:15px">
+                                    <span>匿!</span>
+                                </span>
+                            </a>
+                        </span>
+                    </div>
+                    <br/>
+                    <ul class="bbs-commonlist">
+                        <li class="bbs-clearfix" th:each="post:${posts}">
+                            <a class="bbs-touxiang" th:href="@{'/view_user_info/'+${post.user.userid}}"><img th:src="${post.user.touxiang}" class="bbs-touxiang"/></a>
+                            <div><span class="disTop" th:if="${post.priority>0}">置顶</span>&nbsp;
+                                <a th:href="@{'/post/'+${post.postid}}"><span th:text="${post.title}"></span></a>
+                                <br/>
+                                <a class="tag-label" th:each="raw_keyword:${post.raw_content}"  th:text="${raw_keyword}">保研</a>
+                            </div>
+                            <div class="feed-origin">
+                                <p class="feed-foot">
+                                    &nbsp;
+                                <a th:href="@{'/view_user_info/'+${post.user.userid}}">
+                                    <span th:text="${post.user.nickname}"></span>
+                                </a>&nbsp;&nbsp;
+                                    <span th:text="${#dates.format(post.datetime, 'yyyy-MM-dd')}"></span>
+                                    |<span th:text="'   '+ ${post.howlong_last_reply}"></span>
+                                </p>
+                            </div>
+                            <div class="feed-legend" style="font-size: 14px;">
+                                <span>赞(<span class="feed-legend-num" th:text="${post.like_nums}">99</span></span>)
+                                <span class="feed-legend-pipe">|</span>
+                                <span>回复(<span class="feed-legend-num" th:text="${post.comment_nums}">99</span></span>)
+                                <span class="feed-legend-pipe">|</span>
+                                <span>浏览<span class="feed-legend-num" th:text="${post.viewnums}">100</span></span>
+                            </div>
+                        </li>
+                    </ul>
+
+                </div>
+                <!--留言板区域-->
+                <!--            检查登陆状态-->
+                <span th:if="${session.USER != null}" >
+                <!--编辑大区域-->
+                <div class="liuyanban">
+                    <div>
+                        <a id="publish_btn" class="btn btn-primary" href="javascript:void(0);" onclick="showeditor();">
+                            <i class="ico-submit"></i>
+                            我要发布
+                        </a>
+                    </div>
+                    <!--                编辑区域-->
+                    <div id="editor_panel" style="background-color:#fff;display:none;">
+                        <form action="#" method="post" class="subscribe-wthree pt-2" style="width:100%;margin:0 0;">
+                                <div class="d-flex subscribe-wthree-field">
+                                    <button class="btn form-control" type="button" style="background: #25bb9b;width: 20%;" >标题</button>
+                                    <input id="publish_title" class="form-control" type="text" placeholder="请输入标题" required="">
+                                </div>
+                                <div class="d-flex subscribe-wthree-field" style="margin-top:10px">
+                                    <button class="btn form-control" type="button" style="background: #25bb9b;width: 20%;" >话题</button>
+                                    <select class="form-control" id="publish_type"  required="">
+                                        <option th:each="type : ${types}" th:value="${type.typeid}" th:if="${type.typeid!=10}" th:text="${type.typename}">1</option>
+                                    </select>
+                                </div>
+                        </form>
+
+                        <div id="editor" style="margin:10px 0;    text-align: left;">
+                        </div>
+                        <a id="publish" class="btn btn-primary" href="javascript:void(0);">
+                            <i class="ico-submit"></i>
+                            发布
+                        </a>
+                    </div>
+                    <script type="text/javascript">
+                        var E = window.wangEditor;
+                        var editor = new E('#editor');
+                        editor.customConfig.menus = [
+                                                        'head',  // 标题
+                                                        'bold',  // 粗体
+                                                        'fontSize',  // 字号
+                                                        'italic',  // 斜体
+			                                            'image',  // 插入图片
+			                                            'emoticon',  // 表情
+                                                        'underline',  // 下划线
+                                                        'strikeThrough',  // 删除线
+                                                        'foreColor',  // 文字颜色
+                                                        'list',  // 列表
+                                                        'justify',  // 对齐方式
+                                                        'code' // 插入代码
+                                                    ];
+                        //表情
+                            editor.customConfig.emotions =[
+                            {
+                                // tab 的标题
+                                title: '小表情',
+                                // type -> 'emoji' / 'image'
+                                type: 'image',
+                                // content -> 数组
+                                content: qq_emoji
+                            },
+                            {
+                                // tab 的标题
+                                title: '可爱表情',
+                                // type -> 'emoji' / 'image'
+                                type: 'image',
+                                // content -> 数组
+                                content: weibo_emoji
+                            },
+                            {
+                                // tab 的标题
+                                title: 'emoji',
+                                // type -> 'emoji' / 'image'
+                                type: 'emoji',
+                                // content -> 数组
+                                content: ['😃', '😄', '😁', '😆']
+                            }
+                        ]
+
+
+                        // 或者 var editor = new E( document.getElementById('editor') );
+                        editor.customConfig.showLinkImg = false;
+                        // 配置服务器端地址
+                        editor.customConfig.uploadImgServer = '/bbs_publish_imageupload';
+                        editor.customConfig.debug = location.href.indexOf('wangeditor_debug_mode=1') > 0;
+                        // 将图片大小限制为 100M
+                        editor.customConfig.uploadImgMaxSize = 100 * 1024 * 1024
+                        editor.customConfig.uploadImgMaxLength = 10000;
+                        editor.customConfig.uploadFileName = 'file';
+                        editor.create();
+
+                        $(function(){
+                            $("#publish").click(function(){
+                                var ele_publish_title = $("#publish_title").val();
+                                var ele_publish_content = editor.txt.html();
+                                var ele_publish_content_val = editor.txt.text();
+                                if( ele_publish_title.length<3){
+                                    alert("标题不可以小于3个字哦，同学");
+                                    return false;
+                                }
+                                if( ele_publish_title.length>40){
+                                    alert("标题请小于40个字哦，同学");
+                                    return false;
+                                }
+                                if( ele_publish_content_val.length<10){
+                                    alert("内容不可以小于10个字哦，同学");
+                                    return false;
+                                }
+                                var ele_type_id = $('#publish_type').val();
+                                $.ajax({
+                                    type:"post",
+                                    url:"/bbs_publish",
+                                    data:{publish_title:ele_publish_title,publish_content:ele_publish_content,type_id:ele_type_id},
+                                    dataType:'json',//dataType:"json",使得返回来的数据格式为json 如果不 添加该条属性，则返回来的为字符串
+                                    success:function(data){
+                                        //alert(data["status"]) //取值可以.key值
+                                        //alert(data["message"]) //取值可以.key值
+                                        window.location.reload();
+                                    },
+                                    error:function(data){
+                                        alert("error")
+                                        alert(data)
+                                    }
+                                })
+
+                            })
+
+                        })
+                    </script>
+                </div>
+                <div style="clear:both"></div>
+            </span>
+                <!--                分页区域-->
+                <div >
+                    <ul class="pagination postlist module-head mypagination">
+                        <li><a th:href="'/bbs/'+${page_start - 1}+'/666/'+${cur_typeid}" >«</a></li>
+                        <span th:each="page_index:${page_indexes}">
+                            <li>
+                                <a th:href="'/bbs/'+${page_index}+'/666/'+${cur_typeid}" >
+                                    <span th:if="${page_index}==${page_start}" class="active_page" th:text="${page_index}">1</span>
+                                    <span th:if="${page_index}!=${page_start}"  th:text="${page_index}">1</span>
+                                </a>
+                            </li>
+                        </span>
+                        <li><a th:href="'/bbs/'+${page_start + 1}+'/666/'+${cur_typeid}" >»</a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="bbs-right">
+                <!--                热门话题-->
+                <div class="module-box">
+                    <div class="module-head" >
+                        <h1>今日热门高校</h1>
+                    </div>
+                    <div class="module-body" style="margin-top:20px">
+                        <div class="tags-box" >
+                            <a class="tag-label" th:each="word:${hot_words}" th:href="'/bbs_search/1/666/-1?keyword='+${word}"  th:text="${word}">保研</a>
+                        </div>
+                    </div>
+                </div>
+<!--                热门帖子-->
+                <div class="module-box">
+                    <div class="module-head">
+                        <h1>全站近期热帖</h1>
+                    </div>
+                    <div class="module-body">
+                        <ul class="list-module bbs-commonlist">
+                            <li th:each="post :${hot_posts}">
+                                <div class="list-title">
+                                    <a target="_blank" class="list-name" th:href="'/post/'+${post.postid}" th:text="${post.title}"></a>
+                                </div>
+                                <div class="feed-foot list-name" style="font-size: 14px;">
+                                    <span class="comm-num">
+                                    回复<a target="_blank" th:href="'/post/'+${post.postid}" th:text="'('+${post.comment_nums}+')'"></a>
+                                    </span>
+                                    发表于
+                                    <span th:text="${#dates.format(post.datetime, 'yyyy-MM-dd')}"></span>
+                                    |<span th:text="'   '+ ${post.howlong_last_reply}"></span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="module-box">
+                    <a href="javascript:void(0);" class="identity-banner" >
+                        <img src="/byd_ad/right_ad1.jpg" alt="" style="width:100%"/>
+                    </a>
+                </div>
+
+                <!--                热门帖子-->
+                <div class="module-box" th:if="${recommend_posts != null}">
+                    <div class="module-head">
+                        <h1>为你推荐</h1>
+                    </div>
+                    <div class="module-body">
+                        <ul class="list-module bbs-commonlist">
+                            <li th:each="post :${recommend_posts}">
+                                <div class="list-title">
+                                    <a target="_blank" class="list-name" th:href="'/post/'+${post.postid}" th:text="${post.title}"></a>
+                                </div>
+                                <div class="feed-foot list-name" style="font-size: 14px;">
+                                    <span class="comm-num">
+                                    回复<a target="_blank" th:href="'/post/'+${post.postid}" th:text="'('+${post.comment_nums}+')'"></a>
+                                    </span>
+                                    发表于
+                                    <span th:text="${#dates.format(post.datetime, 'yyyy-MM-dd')}"></span>
+                                    |<span th:text="'   '+ ${post.howlong_last_reply}"></span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!--                热门帖子-->
+                <div class="module-box" th:if="${recommend_posts == null}">
+                    <div class="module-head">
+                        <h1>为你推荐</h1>
+                    </div>
+                    <div class="topic-slide-box" style="height: auto;padding:0;margin:0;margin-top:20px;">
+                        <img src="/byd_web_ui/recommend_loading.gif" alt="" style="width:100%">
+                    </div>
+                </div>
+
+
+<!--                堆叠广告区域-->
+                <div class="module-box side-topic-box" id="jsSideTopicList">
+                    <div class="module-head clearfix">
+                        <div class="module-head-oprt">
+                            <span class="mho-page topic-slide-progress"></span>
+                            <a href="javascript:void(0);" class="mho-pre js-topic-mho-pre" title="下一页" style="display: none;"></a>
+                            <a href="javascript:void(0);" class="mho-next js-topic-mho-next" title="上一页" style="display: none;"></a>
+                        </div>
+                        <h1>精彩活动</h1>
+                    </div>
+                    <div class="module-body">
+                        <div class="topic-slide-box" style="height: auto;">
+                            <ul class="side-topic-list">
+                                <li style="margin-bottom: 10px;">
+                                    <a>
+                                        <img src="/byd_ad/lunbo_ad1.jpg" alt="" style="width:100%">
+                                    </a>
+                                </li>
+                                <li style="margin-bottom: 10px;">
+                                    <a >
+                                        <img src="/byd_ad/lunbo_ad2.jpg" alt="" style="width:100%">
+                                    </a>
+                                </li>
+                                <li style="margin-bottom: 10px;">
+                                    <a >
+                                        <img src="/byd_ad/lunbo_ad3.jpg" alt="" style="width:100%">
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+            <div style="clear:both"></div>
+            <!-- //subscribe -->
+
+
+
+
+        </div>
+    </div>
+    <!--//login-->
+    <!-- copyright bottom -->
+    <div class="copy-bottom bg-li py-4 border-top">
+        <div class="container-fluid">
+            <div class="d-md-flex px-md-3 position-relative text-center">
+                <!-- footer social icons -->
+                <div class="social-icons-footer mb-md-0 mb-3">
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="#">
+                                <span class="fa fa-facebook"></span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span class="fa fa-twitter"></span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span class="fa fa-google-plus"></span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span class="fa fa-instagram"></span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- //footer social icons -->
+                <!-- copyright -->
+                <div class="copy_right mx-md-auto mb-md-0 mb-3">
+                    <p class="text-bl let">© 2019 小飞猫保研. All rights reserved | Design by
+                        <a href="#" target="_blank">XKK</a>
+                        <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1278274096'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s9.cnzz.com/z_stat.php%3Fid%3D1278274096%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
+                    </p>
+                    <p class="text-muted">皖ICP备19023499号
+                    </p>
+                </div>
+                <!-- //copyright -->
+                <!-- move top icon -->
+                <a href="#home" class="move-top text-center">
+                    <span class="fa fa-level-up" aria-hidden="true"></span>
+                </a>
+                <!-- //move top icon -->
+            </div>
+        </div>
+    </div>
+    <!-- //copyright bottom -->
+</body>
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+</html>

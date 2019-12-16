@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <meta name="keywords" content="保研,推免,保研案例,保研学长,保研咨询,保研服务,保研大数据,高校选择,去哪个学校好,研究生推免,研究生报送,预推免,读研,考研资料,一对一服务,保研论坛,保研社区,保研高校,推免社区,小飞猫,小飞猫保研,小飞猫教育,教育" />
+    <meta name="description" content="为高校学子提供保研信息查询，保研经验交流，本站有3000+保研前辈的经验分享，数十万保研案例，百万保研大数据，实时更新保研资讯，不再错过保研机会。为你提供个人定位咨询，人工智能保研服务。小飞猫保研，你值得拥有。"/>
+    <meta name="mobile-web-app-capable" content="yes"/>
+    <!-- awesone fonts css-->
+    <link href="{{ url_for('static', filename='css/font-awesome.css') }}" rel="stylesheet" type="text/css">
+    <!-- owl carousel css-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='owl-carousel/assets/owl.carousel.min.css') }}" type="text/css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <!-- custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>个人定位系统-小飞猫大数据中心</title>
+    <style>
+
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light bg-transparent" id="gtco-main-nav">
+    <div class="container"><a class="navbar-brand">A&B Lab</a>
+        
+    </div>
+</nav>
+<div class="container-fluid gtco-banner-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h1><span>AI+Big Data</span><br/> 
+				小飞猫保研. </h1>
+                <p> 查高校，查专业，找定位.<br/>通通帮你解决. </p></div>
+            <div class="col-md-6">
+                <div class="card"><img class="card-img-top img-fluid" src="{{ url_for('static', filename='images/banner-img.png') }}" alt=""></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid gtco-features" id="about">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4">
+                <h2> 我们为您准备了合适的专业与复习书籍 </h2></div>
+            <div class="col-lg-8">
+                <svg id="bg-services"
+                     width="100%"
+                     viewBox="0 0 1000 800">
+                    <defs>
+                        <linearGradient id="PSgrad_02" x1="64.279%" x2="0%" y1="76.604%" y2="0%">
+                            <stop offset="0%" stop-color="rgb(1,230,248)" stop-opacity="1"/>
+                            <stop offset="100%" stop-color="rgb(29,62,222)" stop-opacity="1"/>
+                        </linearGradient>
+                    </defs>
+                    <path fill-rule="evenodd" opacity="0.102" fill="url(#PSgrad_02)"
+                          d="M801.878,3.146 L116.381,128.537 C26.052,145.060 -21.235,229.535 9.856,312.073 L159.806,710.157 C184.515,775.753 264.901,810.334 338.020,792.380 L907.021,652.668 C972.912,636.489 1019.383,573.766 1011.301,510.470 L962.013,124.412 C951.950,45.594 881.254,-11.373 801.878,3.146 Z"/>
+                </svg>
+                <div class="row">
+                    <div class="col">
+                        <div class="card text-center">
+                            <div class="oval"><img class="card-img-top" src="{{ url_for('static', filename='images/web-design.png') }}" alt=""></div>
+                            <div class="card-body">
+							
+                                <h3 class="card-title">学长都去了这些专业</h3>
+								{% for recommend in major_name_list %}
+                                <p class="card-text">{{recommend}}</p>			
+									
+								{% endfor %}
+                            </div>
+                        </div>
+						<div class="card text-center">
+                            <div class="oval"><img class="card-img-top" src="{{ url_for('static', filename='images/web-design.png') }}" alt=""></div>
+                            <div class="card-body">
+							
+                                <h3 class="card-title">社会点评</h3>
+                                <p class="card-text">{{major_job_list}}</p>
+									
+                            </div>
+                        </div>
+                    </div>
+					
+					<div class="col">
+                        <div class="card text-center">
+                            <div class="oval"><img class="card-img-top" src="{{ url_for('static', filename='images/web-design.png') }}" alt=""></div>
+                            <div class="card-body">
+							
+                                <h3 class="card-title">学长都参考了这些书</h3>
+								{% for recommend in exam_second_book_list1 %}
+                                <p class="card-text">{{recommend}}</p>																
+								{% endfor %}
+                            </div>
+                        </div>
+                         <div class="card text-center">
+                            <div class="oval"><img class="card-img-top" src="{{ url_for('static', filename='images/marketing.png') }}" alt=""></div>
+                            <div class="card-body">
+							
+                                <h3 class="card-title">学长都参考了这些书</h3>
+								{% for recommend in exam_second_book_list2 %}
+                                <p class="card-text">{{recommend}}</p>											
+								{% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+				
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="container-fluid gtco-testimonials">
+    <div class="container">
+        <h2>你可以去这些学校冲刺一波.</h2>
+        <div class="owl-carousel owl-carousel1 owl-theme">
+		
+			{% for recommend in recommend_first %}
+            <div>
+                <div class="card text-center"><img class="card-img-top" src="{{recommend[2]}}" alt="">
+                    <div class="card-body">
+                        <a href="{{ url_for('university',university_id=recommend[5])}}"><h5>{{recommend[0]}}</h5></a><br/><br/>
+                        <p class="card-text">{{recommend[4]}} </p><br/>
+                        <small class="card-text">{{recommend[3]}} </small>
+                    </div>
+                </div>
+            </div>
+			{% endfor %}
+            
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid gtco-testimonials">
+    <div class="container">
+        <h2>你可以去这些学校保底一波.</h2>
+        <div class="owl-carousel owl-carousel1 owl-theme">
+		
+			{% for recommend in recommend_second %}
+            <div>
+                <div class="card text-center"><img class="card-img-top" src="{{recommend[2]}}" alt="">
+                    <div class="card-body">
+                        <a href="{{ url_for('university',university_id=recommend[5])}}"><h5>{{recommend[0]}}</h5></a><br/><br/>
+                        <p class="card-text">{{recommend[4]}} </p><br/>
+                        <small class="card-text">{{recommend[3]}} </small>
+                    </div>
+                </div>
+            </div>
+			{% endfor %}
+            
+        </div>
+    </div>
+</div>
+
+<footer class="container-fluid" id="gtco-footer">
+    <div class="container">
+        <div class="row">            
+            <div class="col-lg-6">
+                <div class="row">               
+                    <div class="col-12">
+                        <p>&copy; 2019. All Rights Reserved. Design by XKK.</p>
+                    </div>
+                    <p class="text-muted">皖ICP备19023499号
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="{{ url_for('static', filename='js/jquery-3.3.1.slim.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+<!-- owl carousel js-->
+<script src="{{ url_for('static', filename='owl-carousel/owl.carousel.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+</html>

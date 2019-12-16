@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <title th:text="'小飞猫保研-'+${post.title}+'-梦想今日实现'"></title>
+    <!-- Meta tag Keywords -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8" />
+    <meta name="keywords" content="保研,推免,保研案例,保研学长,保研咨询,保研服务,保研大数据,高校选择,去哪个学校好,研究生推免,研究生报送,预推免,读研,考研资料,一对一服务,保研论坛,保研社区,保研高校,推免社区,小飞猫,小飞猫保研,小飞猫教育,教育" />
+    <meta name="description" content="为高校学子提供保研信息查询，保研经验交流，本站有3000+保研前辈的经验分享，数十万保研案例，百万保研大数据，实时更新保研资讯，不再错过保研机会。为你提供个人定位咨询，人工智能保研服务。小飞猫保研，你值得拥有。"/>
+    <meta name="mobile-web-app-capable" content="yes"/>
+    <!-- //Meta tag Keywords -->
+
+    <script type="text/javascript" src="https://unpkg.com/wangeditor@3.1.1/release/wangEditor.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <!-- Custom-Files -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
+    <!-- Bootstrap-Core-CSS -->
+    <link rel="stylesheet" th:href="@{/css/style.css}" type="text/css" media="all" />
+    <script th:src="@{/js/qq_emoji.js}"></script>
+    <script th:src="@{/js/weibo_emoji.js}"></script>
+    <!-- Style-CSS -->
+    <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet"/>
+    <!-- Font-Awesome-Icons-CSS -->
+    <!-- //Custom-Files -->
+
+</head>
+<script>
+    function showeditor(){
+        var publish_editor = document.getElementById('editor_panel');
+        var publish_btn = document.getElementById('publish_btn');
+        publish_editor.style.display = "block";
+        publish_btn.style.display = "none";
+    }
+</script>
+<body style="background-color:#eee">
+<!-- main banner -->
+<div class="main-top" id="home">
+    <!-- header -->
+    <header>
+        <div class="container-fluid">
+            <div class="header d-lg-flex justify-content-between align-items-center py-3 px-sm-3">
+                <!-- logo -->
+                <div id="logo">
+                    <h1><a href="/index"><img src="/byd_web_ui/logo.png" style="height: 50px;"/></a></h1>
+                </div>
+                <!-- //logo -->
+                <!-- nav -->
+                <div class="nav_w3ls">
+                    <nav>
+                        <label for="drop" class="toggle">Menu</label>
+                        <input type="checkbox" id="drop" />
+                        <ul class="menu">
+                            <li><a href="/index">首页</a></li>
+                            <li><a href="/bbs" class="active">讨论区</a></li>
+                            <li><a href="/university">资讯库
+                                <span class="tag-hot" style="background-color:#df2717;">
+                                    <img src="/byd_web_ui/recommend_icon.png" alt="" style="width:20px">
+                                    <span>智!</span>
+                                </span></a></li>
+                            <li>
+                                <!-- First Tier Drop Down -->
+                                <label for="drop-2" class="toggle toogle-2">题库 <span class="fa fa-angle-down" aria-hidden="true"></span>
+                                </label>
+                                <a href="#">文库 <span class="fa fa-angle-down" aria-hidden="true"></span></a>
+                                <input type="checkbox" id="drop-2" />
+                                <ul>
+                                    <li><a href="/bbs/1/666/11" class="drop-text">各种排行</a></li>
+                                    <li><a href="/bbs/1/666/21" class="drop-text">导师信息库
+                                        <span class="tag-hot" >
+                                                <img src="/byd_web_ui/niming_icon.png" alt="" style="width:15px">
+                                                <span>匿!</span>
+                                            </span></a></li>
+                                </ul>
+                            </li>
+                            <li><a href="http://www.findai.wang:8881/">AI定位</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <!-- //nav -->
+                <div class="d-flex mt-lg-1 mt-sm-2 mt-3 justify-content-center">
+                    <!-- search -->
+                    <div class="search-w3layouts mr-3">
+                        <form action="/bbs_search" method="get" class="search-bottom-wthree d-flex">
+                            <input class="search" type="search" placeholder="懂你所指，搜搜Anything..." required="" name="keyword"  id="keyword" oninput="getuniversityname();">
+                            <button class="form-control btn" type="submit"><span class="fa fa-search"></span></button>
+                        </form>
+                        <ul id="ul_university" class="list-module" style="background-image:url('/byd_web_ui/recommend_university_bg.jpg') no-repeat;background-size:100% 100%;text-align:center;position: absolute;z-index: 11;"></ul>
+                        <script>
+								//智能搜索框,语义识别
+								function getuniversityname(){
+									var keyword1 = $('#keyword').val();
+									$('#ul_university li').remove();
+									$.ajax({
+										type:"post",
+										url:"/getsuggestsearch",
+										data:{keyword:keyword1},
+										dataType:'json',//dataType:"json",使得返回来的数据格式为json 如果不 添加该条属性，则返回来的为字符串
+										success:function(data){
+											$('#ul_university').show();
+											//alert(data["status"]) //取值可以.key值
+											//alert(data["message"]) //取值可以.key值
+											//alert(data);
+											//window.location.reload();
+
+									　　　　for (var i = 0; i < data.suggestsearch.length; i++) {
+										　　　　//如果在select中传递其他参数，可以在option 的value属性中添加参数
+												$("#ul_university").append("<li style='background-color:#ffffffcc;padding:8px' onclick='showoninput("+"\""+data.suggestsearch[i]+"\""+");'>"+data.suggestsearch[i]+"</li>");
+											}
+										},
+										error:function(data){
+											$('#ul_university').hide();
+											alert("error");
+											alert(data);
+										}
+									})
+									}
+									function showoninput(name){
+										$('#ul_university li').remove();
+										$('#keyword').val(name);
+										$('#ul_university').hide();
+									}
+							</script>
+                    </div>
+                    <!-- //search -->
+                    <!-- download -->
+                    <span th:if="${session.USER == null}">
+                        <a class="dwn-w3ls btn" href="/login" target="_blank">
+                            <span style="color:#fff">登录/注册</span>
+                        </a>
+                    </span>
+                    <span th:if="${session.USER != null}">
+                        <div class="nav_w3ls">
+                            <nav>
+                                <ul class="menu">
+                                    <lis>
+                                        <label for="drop-3" class="toggle toogle-2"><span class="fa fa-angle-down" aria-hidden="true"></span>
+                                        </label>
+                                        <a href="#" class="dwn-w3ls btn" style="color:#fff"><span th:text="${session.USER.nickname}"></span>
+                                            <span class="badge" th:text="${session.USER.message_nums}" th:if="${session.USER.message_nums>0}">0</span>
+                                            <span class="fa fa-angle-down" aria-hidden="true"></span></a>
+                                        <input type="checkbox" id="drop-3" />
+                                        <ul>
+                                            <li><a href="/user_info" class="drop-text">个人中心
+                                            <span class="badge" th:text="${session.USER.message_nums}" th:if="${session.USER.message_nums>0}">0</span>
+                                            </a></li>
+                                            <li><a href="#" class="drop-text">礼物兑换</a></li>
+                                            <li><a href="/logout" class="drop-text">退出</a></li>
+                                        </ul>
+                                    </lis>
+                                </ul>
+                            </nav>
+                        </div>
+                    </span>
+                    <!-- //download -->
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- //header -->
+    </div>
+
+<div class="icon-effects-w3l">
+    <img th:src="@{/images/shape1.png}" alt="" class="img-fluid shape-wthree shape-w3-one">
+    <img th:src="@{/images/shape2.png}" alt="" class="img-fluid shape-wthree shape-w3-two">
+    <img th:src="@{/images/shape3.png}" alt="" class="img-fluid shape-wthree shape-w3-three">
+    <img th:src="@{/images/shape5.png}" alt="" class="img-fluid shape-wthree shape-w3-four">
+    <img th:src="@{/images/shape4.png}" alt="" class="img-fluid shape-wthree shape-w3-five">
+    <img th:src="@{/images/shape6.png}" alt="" class="img-fluid shape-wthree shape-w3-six">
+</div>
+    <!--//login-->
+    <div class="bbs_panel">
+<!--        <div class="container py-xl-5 py-lg-3">-->
+
+        <!--轮播广告-->
+        <div id="demo" class="carousel slide" data-ride="carousel">
+
+            <!-- 指示符 -->
+            <ul class="carousel-indicators">
+                <li data-target="#demo" data-slide-to="0" class="active"></li>
+                <li data-target="#demo" data-slide-to="1"></li>
+                <li data-target="#demo" data-slide-to="2"></li>
+            </ul>
+
+            <!-- 轮播图片 -->
+            <div class="carousel-inner" >
+                <div class="carousel-item active" style="text-align:center;">
+                    <img src="/byd_ad/lunbo_ad1.jpg" style="width:100%;height:350px">
+                </div>
+                <div class="carousel-item" style="text-align:center;">
+                    <img src="/byd_ad/lunbo_ad2.jpg" style="width:100%;height:350px">
+                </div>
+                <div class="carousel-item" style="text-align:center;">
+                    <img src="/byd_ad/lunbo_ad3.jpg" style="width:100%;height:350px">
+                </div>
+            </div>
+
+            <!-- 左右切换按钮 -->
+            <a class="carousel-control-prev" href="#demo" data-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </a>
+            <a class="carousel-control-next" href="#demo" data-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </a>
+
+        </div>
+
+        <div>
+            <!-- bbs左边栏目 -->
+            <div class="bbs-left">
+                <div>
+                    <!--                作者展示区域-->
+                    <div class="discuss-topic-head module-box" style="border-radius: 3px; margin-bottom: 0px;">
+                        <h1 class="discuss-title"><span class="js-post-title" th:text="${post.title}">
+                        </span>
+                            <a href="javascript:void(0);" class="tag-label"  th:text="${post.type.typename}">随便聊聊</a>
+                        </h1>
+                        <div class="discuss-author clearfix">
+                            <a th:href="@{'/view_user_info/'+${post.user.userid}}" class="bbs-touxiang"><img th:src="${post.user.touxiang}"  class="bbs-touxiang" alt="头像"></a>
+                            <div class="post-detail" style="text-align: left;">
+                                    <span>
+                                    <a class="level-color-8  post-name" th:href="@{'/view_user_info/'+${post.user.userid}}"  th:text="${post.user.nickname}"></a>
+                                    </span>
+                                    <div class="post-legend">
+                                    <span class="post-time">
+                                        编辑于  <span th:text="${#dates.format(post.datetime, 'yyyy-MM-dd HH:mm')}"></span>
+                                        |
+                                        <span th:text="'   '+${post.howlong_last_reply}"></span>
+                                    </span>
+
+
+
+                                    <div class="feed-legend">
+                                        <a href="javascript:void(0);" th:if="not ${post.Liked}" style="color: #999;" th:onclick=" 'updatelike('+'\'post\''+','+ ${post.postid}+','+${post.like_nums}+');'" th:id="'post_like_id_'+${post.postid}" class="nc-req-auth js-post-replay" th:text="'赞('+${post.like_nums}+')'">赞(0)</a>
+                                        <a href="javascript:void(0);" th:if="${post.Liked}" style="color: #999;" th:id="'post_like_id_'+${post.postid}" class="nc-req-auth js-post-replay" th:text="'已点赞('+${post.like_nums}+')'">已点赞(0)</a>
+                                        <span class="feed-legend-pipe">|</span>
+                                        <span style="cursor:pointer;" class="nc-req-auth js-post-replay">回复(<span class="feed-legend-num" th:text="${post.comment_nums}">18</span>)</span>
+                                        <span class="feed-legend-pipe">|</span>
+                                        <span>浏览<span class="feed-legend-num" th:text="${post.viewnums}"></span></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+<!--                    帖子详情-->
+                    <div class="post-topic-main module-box"  style="border-radius: 3px;">
+                        <input th:value="${post.postid}" id="postid" disabled="disabled" style="display:none"/>
+                        <p th:utext="${post.content}"></p>
+                    </div>
+<!--                    回帖信息-->
+                    <div class="module-box" th:if="${post.comment_nums==0}">
+                        <div class="module-body clearfix"></div>
+                        <div  class=" answer-list-item clearfix js-copy-mark" >
+                            <div class="answer-content clearfix">
+                                <div align="center">
+                                    <img src="/byd_web_ui/no_comments.jpg" style="width:50%"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="module-box" th:if="${post.comment_nums>0}">
+                        <div class="module-head clearfix">
+                            <h1><span th:text="${post.comment_nums}"></span>条回帖</h1>
+                        </div>
+                        <div class="module-body clearfix">
+<!--                            评论item-->
+                            <div th:each="comment:${post.comments}" style="margin-top:10px;border-bottom:1px solid #ededed;padding:10px 0" >
+                                <input disabled="disabled" th:value="${comment.commentid}" th:id="'commentid_'+${comment.commentid}" style="display:none"/>
+                                <div id="commentid" class=" answer-list-item clearfix js-copy-mark" >
+                                    <div class="answer-content clearfix">
+                                        <a class="answer-head" th:href="'/view_user_info/'+${comment.user.userid}" target="_blank" data-card-index="5">
+                                            <img th:src="${comment.user.touxiang}" class="bbs-touxiang">
+                                        </a>
+                                        <div class="answer-detail" th:id="'comment_panel_id_'+${comment.commentid}">
+                                            <p>
+                                                <a th:href="'/view_user_info/'+${comment.user.userid}"target="_blank" class="js-copy-tip level-color-8 answer-name" th:text="${comment.user.nickname}"></a>
+                                                <!--                                                                                加楼主标识-->
+                                                <span th:if="${comment.user.userid == post.user.userid and post.user.userid!=-1}">
+                                                    <a href="javascript:void(0);"><img class="identity-icon" src="//uploadfiles.nowcoder.com/images/20190708/56_1562592127316_5889949873E3E23C8A0EC0CC8F6042A8" /></a>
+                                                </span>
+                                            </p>
+                                            <div class="answer-brief"><p th:utext="${comment.content}"></p></div>
+                                            <div class="answer-legend js-action">
+                                                <span class="answer-time">发表于 <span th:text="${comment.datetime}"></span>
+                                                    <a  class="reply-answer js-cmt-action"
+                                                       data-toggle="collapse"
+                                                       th:href="'#collapse_commentid_'+${comment.commentid}"
+                                                    >回复(<span th:text="${comment.reply_nums}"></span>)</a>
+                                                    <a href="javascript:void(0);" th:if="not ${comment.Liked}" th:onclick=" 'updatelike('+'\'comment\''+','+ ${comment.commentid}+','+${comment.like_nums}+');'" th:id="'comment_like_id_'+${comment.commentid}"  class="js-cmt-action" th:text="'赞('+${comment.like_nums}+')'"></a>
+                                                    <a href="javascript:void(0);" th:if="${comment.Liked}" th:id="'comment_like_id_'+${comment.commentid}"  class="js-cmt-action" th:text="'已点赞('+${comment.like_nums}+')'"></a>
+                                                </span>
+                                            </div>
+
+                                            <!--回复item-->
+                                            <div th:id="'collapse_commentid_'+${comment.commentid}" class="panel-collapse collapse">
+
+                                                <!--                                                回复编辑框-->
+                                                <div class="js-reply-box"
+                                                >
+                                                    <div  class=" reply-editbox clearfix" style="margin-top:10px;">
+                                                        <form class="subscribe-wthree pt-2">
+                                                            <div class="d-flex subscribe-wthree-field" >
+                                                                <input th:id="'input_commentid_'+${comment.commentid}+'_replyid_-1'" class="form-control" type="text" placeholder="发表你的看法" name="reply_content" required="">
+                                                                <button class="btn form-control" type="button"  th:onclick="'f_reply('+${comment.commentid}+','+${comment.user.userid}+',-1)'" style="width:20%;">发表</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+
+                                                <div class="reply-box js-sub-cmt-list" style=""  th:each="reply : ${comment.replies}" >
+                                                    <div id="jsCpn_51_component_3" class=" ">
+                                                        <div class="js-tips" style="display: none;"></div>
+                                                        <div class="js-content" style="">
+                                                            <div class="reply-list js-list">
+                                                                <div id="jsCpn_110_component_0" class=" reply-list-item js-copy-mark" >
+                                                                    <div class="reply-main clearfix">
+                                                                        <div class="reply-person" style="margin-right:5px;">
+                                                                            <a href="javascript:void(0);" target="_blank" data-card-uid="63" class="js-copy-tip level-color-8" data-card-index="54">
+                                                                                <span th:if="${reply.my_user.userid != reply.other_user.userid}">
+                                                                                    <a th:href="'/view_user_info/'+${reply.my_user.userid}"><span th:text="${reply.my_user.nickname}"></span></a>
+                                                                                    <!--                                                                                加楼主标识-->
+                                                                                    <span th:if="${reply.my_user.userid == post.user.userid  and post.user.userid!=-1}">
+                                                                                        <a href="javascript:void(0);"><img class="identity-icon" src="//uploadfiles.nowcoder.com/images/20190708/56_1562592127316_5889949873E3E23C8A0EC0CC8F6042A8" /></a>
+                                                                                    </span>
+                                                                                    回复
+                                                                                    <a th:href="'/view_user_info/'+${reply.other_user.userid}"><span th:text="${reply.other_user.nickname}"></span></a>
+                                                                                    <!--                                                                                加楼主标识-->
+                                                                                    <span th:if="${reply.other_user.userid == post.user.userid  and post.user.userid!=-1}">
+                                                                                        <a href="javascript:void(0);"><img class="identity-icon" src="//uploadfiles.nowcoder.com/images/20190708/56_1562592127316_5889949873E3E23C8A0EC0CC8F6042A8" /></a>
+                                                                                    </span>
+                                                                                    :
+                                                                                </span>
+                                                                                <span th:if="${reply.my_user.userid == reply.other_user.userid}">
+                                                                                    <a th:href="'/view_user_info/'+${reply.my_user.userid}"><span th:text="${reply.my_user.nickname}"></span></a>
+    <!--                                                                                加楼主标识-->
+                                                                                    <span th:if="${reply.my_user.userid == post.user.userid  and post.user.userid!=-1}">
+                                                                                        <a href="javascript:void(0);"><img class="identity-icon" src="//uploadfiles.nowcoder.com/images/20190708/56_1562592127316_5889949873E3E23C8A0EC0CC8F6042A8" /></a>
+                                                                                    </span>
+                                                                                    :
+                                                                                </span>
+                                                                            </a>
+                                                                        </div>
+                                                                        <div class="reply-content">
+                                                                            <p th:text="${reply.content}"></p>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="answer-legend reply-info js-sub-action">
+                                                                        <span class="reply-time" th:text="${reply.datetime}"></span>
+                                                                        <a
+                                                                           class="reply-answer js-cmt-action"
+                                                                           data-toggle="collapse"
+                                                                           th:href="'#collapse_commentid_'+${comment.commentid}+'_replyid_'+${reply.replyid}"
+                                                                        >回复</a>
+                                                                        <a href="javascript:void(0);" th:if="not ${reply.Liked}" th:onclick=" 'updatelike('+'\'reply\''+','+ ${reply.replyid}+','+${reply.like_nums}+');'" th:id="'reply_like_id_'+${reply.replyid}" class="reply-like js-cmt-action" th:text="'赞('+${reply.like_nums}+')'">赞(0)</a>
+                                                                        <a href="javascript:void(0);" th:if="${reply.Liked}"  th:id="'reply_like_id_'+${reply.replyid}" class="reply-like js-cmt-action" th:text="'已点赞('+${reply.like_nums}+')'">已点赞(0)</a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+    <!--                                                回复编辑框-->
+                                                    <div class="js-reply-box panel-collapse collapse"
+                                                         th:id="'collapse_commentid_'+${comment.commentid}+'_replyid_'+${reply.replyid}"
+                                                    >
+                                                        <div id="jsCpn_52_component_0" class=" reply-editbox clearfix" style="margin-top:10px;">
+                                                            <form class="subscribe-wthree pt-2">
+                                                                <div class="d-flex subscribe-wthree-field" >
+                                                                    <input th:id="'input_commentid_'+${comment.commentid}+'_replyid_'+${reply.replyid}" class="form-control" type="text" placeholder="发表你的看法" name="reply_content" required="">
+                                                                    <button class="btn form-control" style="width: 20%;" type="button" id="reply" th:onclick="'f_reply('+${comment.commentid}+','+${reply.my_user.userid}+','+${reply.replyid}+')'">回复</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+<!--                    留言板-->
+                <script>
+                    //comment：发给哪个评论
+                    //userid：发给哪个人
+                    function f_reply(commentid,userid,replyid){
+                        var postid = $("#postid").val();
+                        var ss = "input_commentid_"+commentid+"_replyid_"+replyid;
+                        var ipn = document.getElementById(ss);
+                        var reply_content1 = $("#input_commentid_"+commentid+"_replyid_"+replyid).val();
+                        //alert(reply_content1);
+                        $.ajax({
+                            type:"post",
+                            url:"/bbs_reply",
+                            data:{postid:postid,commentid:commentid,other_userid:userid,reply_content:reply_content1},
+                            dataType:'json',//dataType:"json",使得返回来的数据格式为json 如果不 添加该条属性，则返回来的为字符串
+                            success:function(data){
+                                //alert(data["status"]) //取值可以.key值
+                                //alert(data["message"]) //取值可以.key值
+                                //alert("error，小飞猫遇到暂时无法解决的问题啦，请稍候再试！");
+                                if(data["status"]=="error"){
+                                    alert("用户未登录");
+                                    window.location.href="/login";
+                                    return;
+                                }
+                                //window.location.reload();
+                                if(data["status"]=="success"){
+                                    $('#collapse_commentid_'+commentid).append(data["message"]);
+                                    var maodian = "mao_commentid_"+commentid+"_replyid_"+data["new_replyid"];
+                                    $('html, body').animate({scrollTop: $('#'+maodian).offset().top}, 500)
+                                    return;
+                                }
+                            },
+                            error:function(data){
+                                alert("error，小飞猫遇到暂时无法解决的问题啦，请稍候再试！");
+                                alert(data)
+                            }
+                        });
+
+                    }
+
+                    function show_reply_panel(commentid,userid,replyid){
+                        var docid = "reply_panel_commentid_"+commentid+"_userid_"+userid+"_replyid_"+replyid;
+                        var div = document.getElementById(docid);
+                        div.style.display="block";
+                        $('#'+docid).show();
+                        return false;
+                    }
+                </script>
+                    <div>
+                        <!--留言板区域-->
+                        <!--            检查登陆状态-->
+                        <span th:if="${session.USER != null}" >
+                        <!--编辑大区域-->
+                        <div class="liuyanban" align="center">
+                            <div>
+                                <a id="publish_btn" class="btn btn-primary" href="javascript:void(0);" onclick="showeditor();">
+                                    <i class="ico-submit"></i>
+                                    参与讨论
+                                </a>
+                            </div>
+                            <!--                编辑区域-->
+                            <div id="editor_panel" style="background-color:#fff;display:none;">
+
+                                <div id="editor" style="margin:10px 0;    text-align: left;">
+                                </div>
+                                <a id="comment" class="btn btn-primary" href="javascript:void(0);">
+                                    <i class="ico-submit"></i>
+                                    发布
+                                </a>
+                            </div>
+                            <script type="text/javascript">
+                                var E = window.wangEditor;
+                                var editor = new E('#editor');
+                                editor.customConfig.menus = [
+                                                        'head',  // 标题
+                                                        'bold',  // 粗体
+                                                        'fontSize',  // 字号
+                                                        'italic',  // 斜体
+			                                            'image',  // 插入图片
+			                                            'emoticon',  // 表情
+                                                        'underline',  // 下划线
+                                                        'strikeThrough',  // 删除线
+                                                        'foreColor',  // 文字颜色
+                                                        'list',  // 列表
+                                                        'justify',  // 对齐方式
+                                                        'code' // 插入代码
+                                                    ];
+                                //表情
+                                    editor.customConfig.emotions =[
+                                    {
+                                        // tab 的标题
+                                        title: '小表情',
+                                        // type -> 'emoji' / 'image'
+                                        type: 'image',
+                                        // content -> 数组
+                                        content: qq_emoji
+                                    },
+                                    {
+                                        // tab 的标题
+                                        title: '可爱表情',
+                                        // type -> 'emoji' / 'image'
+                                        type: 'image',
+                                        // content -> 数组
+                                        content: weibo_emoji
+                                    },
+                                    {
+                                        // tab 的标题
+                                        title: 'emoji',
+                                        // type -> 'emoji' / 'image'
+                                        type: 'emoji',
+                                        // content -> 数组
+                                        content: ['😃', '😄', '😁', '😆']
+                                    }
+                                ]
+                                // 或者 var editor = new E( document.getElementById('editor') );
+                                editor.customConfig.showLinkImg = false;
+                                // 配置服务器端地址
+                                editor.customConfig.uploadImgServer = '/bbs_publish_imageupload';
+                                editor.customConfig.debug = location.href.indexOf('wangeditor_debug_mode=1') > 0;
+                                editor.customConfig.uploadFileName = 'file';
+                                // 将图片大小限制为 100M
+                                editor.customConfig.uploadImgMaxSize = 100 * 1024 * 1024
+                                // 限制一次最多上传 5 张图片
+                                editor.customConfig.uploadImgMaxLength = 10000;
+                                editor.create();
+                                $(function(){
+                                    $("#comment").click(function(){
+                                        var postid = $("#postid").val();
+                                        var comment_content = editor.txt.html();
+
+                                        $.ajax({
+                                            type:"post",
+                                            url:"/bbs_comment",
+                                            data:{postid:postid,comment_content:comment_content},
+                                            dataType:'json',//dataType:"json",使得返回来的数据格式为json 如果不 添加该条属性，则返回来的为字符串
+                                            success:function(data){
+                                                //alert(data["status"]) //取值可以.key值
+                                                //alert(data["message"]) //取值可以.key值
+                                                window.location.reload();
+                                            },
+                                            error:function(data){
+                                                alert("error")
+                                                alert(data)
+                                            }
+                                        })
+
+                                    })
+
+                                })
+                            </script>
+                        </div>
+                        <div style="clear:both"></div>
+                    </span>
+                    </div>
+
+                <!--                分页区域-->
+                    <div align="center">
+                        <ul class="pagination postlist module-head mypagination">
+                            <li><a th:href="'/post/'+${post.postid}+'/'+${page_start - 1}+'/666'" >«</a></li>
+                            <span th:each="page_index:${page_indexes}">
+                                <li>
+                                    <a th:href="'/post/'+${post.postid}+'/'+${page_index}+'/666'" >
+                                        <span th:if="${page_index}==${page_start}" class="active_page" th:text="${page_index}">1</span>
+                                        <span th:if="${page_index}!=${page_start}"  th:text="${page_index}">1</span>
+                                    </a>
+                                </li>
+                            </span>
+                            <li><a th:href="'/post/'+${post.postid}+'/'+${page_start + 1}+'/666'" >»</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="bbs-right">
+                <!--                热门话题-->
+                <div class="module-box">
+                    <div class="module-head" >
+                        <h1>今日热门高校</h1>
+                    </div>
+                    <div class="module-body" style="margin-top:20px">
+                        <div class="tags-box" >
+                            <a class="tag-label" th:each="word:${hot_words}" th:href="'/bbs_search/1/666/-1?keyword='+${word}"  th:text="${word}">保研</a>
+                        </div>
+                    </div>
+                </div>
+<!--                热门帖子-->
+                <div class="module-box">
+                    <div class="module-head">
+                        <h1>全站近期热帖</h1>
+                    </div>
+                    <div class="module-body">
+                        <ul class="list-module bbs-commonlist">
+                            <li class="bbs-clearfix" th:each="post :${hot_posts}">
+                                <div class="list-title">
+                                    <a target="_blank" class="list-name" th:href="'/post/'+${post.postid}" th:text="${post.title}"></a>
+                                </div>
+                                <div class="feed-foot list-name" style="font-size: 14px;">
+                                    <span class="comm-num">
+                                    回复<a target="_blank" th:href="'/post/'+${post.postid}" th:text="'('+${post.comment_nums}+')'"></a>
+                                    </span>
+                                    发表于
+                                    <span th:text="${#dates.format(post.datetime, 'yyyy-MM-dd')}"></span>
+                                    |<span th:text="'   '+ ${post.howlong_last_reply}"></span>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="module-box">
+                    <a href="javascript:void(0);" class="identity-banner" >
+                        <img src="/byd_ad/right_ad1.jpg" alt="" style="width:100%"/>
+                    </a>
+                </div>
+
+                <!--                热门帖子-->
+                <div class="module-box" th:if="${recommend_posts !=null}">
+                    <div class="module-head">
+                        <h1>为你推荐</h1>
+                    </div>
+                    <div class="module-body">
+                        <ul class="list-module bbs-commonlist">
+                            <li th:each="post :${recommend_posts}">
+                                <div class="list-title">
+                                    <a target="_blank" class="list-name" th:href="'/post/'+${post.postid}" th:text="${post.title}"></a>
+                                </div>
+                                <div class="feed-foot list-name" style="font-size: 14px;">
+                                    <span class="comm-num">
+                                    回复<a target="_blank" th:href="'/post/'+${post.postid}" th:text="'('+${post.comment_nums}+')'"></a>
+                                    </span>
+                                    发表于
+                                    <span th:text="${#dates.format(post.datetime, 'yyyy-MM-dd')}"></span>
+                                    |<span th:text="'   '+ ${post.howlong_last_reply}"></span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!--                热门帖子-->
+                <div class="module-box" th:if="${recommend_posts == null}">
+                    <div class="module-head">
+                        <h1>为你推荐</h1>
+                    </div>
+                    <div class="topic-slide-box" style="height: auto;padding:0;margin:0;margin-top:20px;">
+                        <img src="/byd_web_ui/recommend_loading.gif" alt="" style="width:100%">
+                    </div>
+                </div>
+
+
+                <!--                堆叠广告区域-->
+                <div class="module-box side-topic-box" id="jsSideTopicList">
+                    <div class="module-head clearfix">
+                        <div class="module-head-oprt">
+                            <span class="mho-page topic-slide-progress"></span>
+                            <a href="javascript:void(0);" class="mho-pre js-topic-mho-pre" title="下一页" style="display: none;"></a>
+                            <a href="javascript:void(0);" class="mho-next js-topic-mho-next" title="上一页" style="display: none;"></a>
+                        </div>
+                        <h1>热门推荐</h1>
+                    </div>
+                    <div class="module-body">
+                        <div class="topic-slide-box" style="height: auto;">
+                            <ul class="side-topic-list">
+                                <li style="margin-bottom: 10px;">
+                                    <a>
+                                        <img src="/byd_ad/lunbo_ad1.jpg" alt="" style="width:100%">
+                                    </a>
+                                </li>
+                                <li style="margin-bottom: 10px;">
+                                    <a >
+                                        <img src="/byd_ad/lunbo_ad2.jpg" alt="" style="width:100%">
+                                    </a>
+                                </li>
+                                <li style="margin-bottom: 10px;">
+                                    <a >
+                                        <img src="/byd_ad/lunbo_ad3.jpg" alt="" style="width:100%">
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+            </div>
+            <div style="clear:both"></div>
+            <!-- //subscribe -->
+        </div>
+    </div>
+
+    <!--//login-->
+    <!-- copyright bottom -->
+    <div class="copy-bottom bg-li py-4 border-top">
+        <div class="container-fluid">
+            <div class="d-md-flex px-md-3 position-relative text-center">
+                <!-- footer social icons -->
+                <div class="social-icons-footer mb-md-0 mb-3">
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="#">
+                                <span class="fa fa-facebook"></span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span class="fa fa-twitter"></span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span class="fa fa-google-plus"></span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span class="fa fa-instagram"></span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- //footer social icons -->
+                <!-- copyright -->
+                <div class="copy_right mx-md-auto mb-md-0 mb-3">
+                    <p class="text-bl let">© 2019 小飞猫保研. All rights reserved | Design by
+                        <a href="http://w3layouts.com/" target="_blank">XKK</a>
+                        <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1278274096'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s9.cnzz.com/z_stat.php%3Fid%3D1278274096%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
+                    </p>
+                    <p class="text-muted">皖ICP备19023499号
+                    </p>
+                </div>
+                <!-- //copyright -->
+                <!-- move top icon -->
+                <a href="#home" class="move-top text-center">
+                    <span class="fa fa-level-up" aria-hidden="true"></span>
+                </a>
+                <!-- //move top icon -->
+            </div>
+        </div>
+    </div>
+    <!-- //copyright bottom -->
+
+</body>
+
+<script>
+    function updatelike(like_source,like_id,nowlike_nums){
+        $.ajax({
+            type:"post",
+            url:"/update_like",
+            data:{like_source:like_source,like_id:like_id},
+            dataType:'json',//dataType:"json",使得返回来的数据格式为json 如果不 添加该条属性，则返回来的为字符串
+            success:function(data){
+                if(data["status"]=="success"){
+                    nums = Number(nowlike_nums)+1
+                    $('#'+like_source+'_like_id_'+like_id).html('点赞成功，嘿嘿~');
+                    $('#'+like_source+'_like_id_'+like_id).html('赞('+nums+')');
+                    return false;
+                }else if(data["status"]=="error") {
+                    $('#'+like_source+'_like_id_'+like_id).html(data["message"]);
+                    return false;
+                }
+                //alert(data["status"]); //取值可以.key值
+                //alert(data["message"]); //取值可以.key值
+                //window.location.reload();
+            },
+            error:function(data){
+                alert(data["message"]); //取值可以.key值
+            }
+        });
+    }
+
+</script>
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+</html>
