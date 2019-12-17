@@ -248,7 +248,7 @@
                                 <p  style=" background: #da233b;color: #fff;width: fit-content;    margin: 0 auto;    padding: 5px;">
 
                                     <img src="/byd_web_ui/university_cold.jpg" th:if="${university.viewnums<30}" style="height:50px"/>
-                                    <img src="/byd_web_ui/university_hot.jpg" th:if="${university.viewnums>30} and ${university.viewnums<50}" style="height:50px"/>
+                                    <img src="/byd_web_ui/university_hot.jpg" th:if="${university.viewnums>=30} and ${university.viewnums<50}" style="height:50px"/>
                                     <img src="/byd_web_ui/university_veryhot.gif" th:if="${university.viewnums>=50}" style="height:50px"/>
                                     <span th:text="'热度：'+${university.viewnums}+'&nbsp;'"></span>
                                 </p>

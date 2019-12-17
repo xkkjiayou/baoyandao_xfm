@@ -48,7 +48,7 @@ public interface UniversityMapper {
     @Select("SELECT universityname,universityid,logo,universityrank,universitylevel FROM tbl_university WHERE universityname=#{universityname}")
     public University getUniversityByName(String universityname);
 
-    @Select("SELECT universityid,universityname,logo FROM tbl_university WHERE universityrank<#{universityrank} and universityrank>0")
+    @Select("SELECT universityid,universityname,logo FROM tbl_university WHERE universityrank<#{universityrank} and universityrank>0 AND universitylevel IN('211','985','双一流')")
     public List<University> getUniversityByBeforeRank(int universityrank);
 
     @Select("SELECT university_loc AS typename,COUNT(*) AS nums FROM tbl_university WHERE universityrank>0 GROUP BY university_loc")

@@ -11,6 +11,7 @@
 	<meta name="mobile-web-app-capable" content="yes"/>
 	<!-- //Meta tag Keywords -->
 
+	<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
 	<!-- Custom-Files -->
 	<link rel="stylesheet" th:href="@{/css/bootstrap.css}">
 	<meta name="baidu-site-verification" content="HcTnMD9Ktw" />
@@ -18,6 +19,7 @@
 	<!-- Bootstrap-Core-CSS -->
 	<link rel="stylesheet" th:href="@{/css/style.css}" type="text/css" media="all" />
 	<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<!-- Style-CSS -->
 	<link th:href="@{/css/font-awesome.min.css}" rel="stylesheet">
 	<!-- Font-Awesome-Icons-CSS -->
@@ -76,7 +78,7 @@
 						<div class="search-w3layouts mr-3">
 							<form action="/bbs_search" method="get" class="search-bottom-wthree d-flex">
 								<input class="search" type="search" placeholder="懂你所指，搜搜Anything..." required="" name="keyword"  id="keyword" oninput="getuniversityname();">
-								<button class="form-control btn" type="submit"><span class="fa fa-search"></span></button>
+								<button class="form-control btn" type="submit" style="height:43px"><span class="fa fa-search"></span></button>
 							</form>
 							<ul id="ul_university" class="list-module" style="background-image:url('/byd_web_ui/recommend_university_bg.jpg') ;background-size:100% 100%;text-align:center;position: absolute;z-index: 11;"></ul>
 							<script>
@@ -192,16 +194,16 @@
 				<div class="col-lg-4 about-grid">
 					<div class="about-grid-main">
 						<img th:src="@{/images/img1.png}" alt="" class="img-fluid">
-						<h4 class="my-4">AI测评</h4>
-						<p> 用人工智能技术，让你更加了解自己，及时查漏补缺。</p>
+						<h4 class="my-4">大数据</h4>
+						<p> 保研大数据，祝你走对每一步路。</p>
 						<a href="http://www.findai.wang:8881/" class="button-w3ls btn mt-sm-5 mt-4">详情</a>
 					</div>
 				</div>
 				<div class="col-lg-4 about-grid my-lg-0 my-5">
 					<div class="about-grid-main">
 						<img th:src="@{/images/img2.png}" alt="" class="img-fluid">
-						<h4 class="my-4">大数据</h4>
-						<p> 看清眼前的形势，走好脚下的路。</p>
+						<h4 class="my-4">人工智能</h4>
+						<p> 智能定位，走前人的路不会错。</p>
 						<a href="http://www.findai.wang:8881/" class="button-w3ls btn mt-sm-5 mt-4">详情</a>
 					</div>
 				</div>
@@ -301,9 +303,9 @@
 					<div class="ab-content-inner">
 						<img th:src="@{/images/t1.jpg}" alt="news image" class="img-fluid">
 						<div class="ab-info-con">
-							<h4 class="text-team-w3">小康康</h4>
+							<h4 class="text-team-w3">小男男</h4>
 							<ul class="list-unstyled team-socil-w3pvts">
-								<p>清华大学</p>
+								<p>南京大学</p>
 							</ul>
 						</div>
 					</div>
@@ -312,9 +314,9 @@
 					<div class="ab-content-inner">
 						<img th:src="@{/images/t2.jpg}" alt="news image" class="img-fluid">
 						<div class="ab-info-con">
-							<h4 class="text-team-w3">中康康</h4>
+							<h4 class="text-team-w3">小康康</h4>
 							<ul class="list-unstyled team-socil-w3pvts">
-								<p>清华大学</p>
+								<p>中国科学技术大学</p>
 							</ul>
 						</div>
 					</div>
@@ -323,9 +325,9 @@
 					<div class="ab-content-inner">
 						<img th:src="@{/images/t3.jpg}" alt="news image" class="img-fluid">
 						<div class="ab-info-con">
-							<h4 class="text-team-w3">大康康</h4>
+							<h4 class="text-team-w3">小莹莹</h4>
 							<ul class="list-unstyled team-socil-w3pvts">
-								<p>清华大学</p>
+								<p>华中科技大学</p>
 							</ul>
 						</div>
 					</div>
@@ -368,11 +370,16 @@
 				<!-- //footer social icons -->
 				<!-- copyright -->
 				<div class="copy_right mx-md-auto mb-md-0 mb-3">
-					<p class="text-bl let">© 2019 小飞猫保研. All rights reserved | Design by
+					<p class="text-bl let">
+						<button type="button" class="btn btn-default" data-toggle="tooltip"  title="<img width=150 src='/byd_web_ui/xfmwxqrcode.jpg'/>">微信公众号</button>
+						<script>
+							$(function () { $("[data-toggle='tooltip']").tooltip({html : true }); });
+						</script>
+						© 2019 小飞猫保研. All rights reserved | Design by
 						<a href="#" target="_blank">XKK</a>
+						<p class="text-muted">皖ICP备19023499号
 						<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1278274096'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s9.cnzz.com/z_stat.php%3Fid%3D1278274096%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
 					</p>
-					<p class="text-muted">皖ICP备19023499号
 					</p>
 				</div>
 				<!-- //copyright -->
