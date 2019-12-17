@@ -7,8 +7,17 @@ public class Type  implements Serializable {
     int typeid;
     String typename;
     Timestamp datetime;
+    String universitylevel;
     int nums;//记录主题下有多少个帖子
     String color;
+
+    public String getUniversitylevel() {
+        return universitylevel;
+    }
+
+    public void setUniversitylevel(String universitylevel) {
+        this.universitylevel = universitylevel;
+    }
 
     @Override
     public String toString() {

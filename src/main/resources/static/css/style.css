@@ -2112,6 +2112,41 @@ ul.pagination li span:hover:not(.active_page)
     background-color: #ddd;
     padding:10px;
 }
+
+//分页
+ul.mypagination {
+    display: inline-block;
+    padding: 0;
+    margin: 0 auto;
+
+}
+ul.mypagination:after {
+    clear:both;
+}
+
+ul.mypagination li {
+    display: inline;
+}
+
+ul.mypagination li a {
+    color: black;
+    padding: 6px 6px;
+    text-decoration: none;
+}
+
+ul.mypagination li span.active_page {
+    background-color: #4CAF50;
+    color: white;
+    padding:8px;
+}
+
+ul.mypagination li span:hover:not(.active_page)
+{
+    background-color: #ddd;
+    padding:10px;
+}
+
+
 .university_age_panel{
     max-width: 800px;
     margin: 0 auto;
