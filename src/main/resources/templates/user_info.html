@@ -222,6 +222,9 @@
                     </header>
                     <div style="box-shadow: 0.33333rem 0 1.33333rem rgba(87, 87, 87, .1);">
                         <!-- 最近浏览 start-->
+                        <div class="postlist module-head" id="recurrent_view_post_panel" style="border-radius:0;margin-top:20px;" th:if="${recurrent_view_posts==null}">
+                            <img src="/byd_web_ui/no_message.jpg" style="width: 100%;"/>
+                        </div>
                         <div class="postlist module-head" id="recurrent_view_post_panel" style="border-radius:0;margin-top:20px;">
                             <ul class="bbs-commonlist">
                                 <li class="bbs-clearfix" th:each="view_post_record:${recurrent_view_posts}">
@@ -254,6 +257,9 @@
                         <!--最近收藏 end-->
 
                         <!-- 未读消息 start-->
+                        <div class="postlist module-head" id="unview_message_panel" style="border-radius:0;margin-top:20px;" th:if="${messages==null}">
+                            <img src="/byd_web_ui/no_message.jpg" style="width: 100%;"/>
+                        </div>
                         <div class="postlist module-head" id="unview_message_panel" style="border-radius:0;margin-top:20px;">
                             <ul class="bbs-commonlist">
                                 <li class="bbs-clearfix" th:each="message:${messages}">

@@ -1,5 +1,6 @@
 package com.xkk.controller;
 
+import com.xkk.pojo.Message;
 import com.xkk.pojo.Record;
 import com.xkk.pojo.University;
 import com.xkk.pojo.User;
@@ -117,7 +118,8 @@ public class UserController {
         }else{
             model.put("user",userList.get(0));
         }
-        model.put("messages",userService.ToActiveMeMessage(userid));
+        List<Message> messages = userService.ToActiveMeMessage(userid);//传的是主动发出消息的人的id
+        model.put("messages",messages.size()>0?messages:null);
         return "view_user_info";
     }
 
@@ -129,8 +131,9 @@ public class UserController {
             return "login";
         }
         List<Record> recordPosts = recordService.getRecordPostByUserid(user.getUserid());
-        model.put("recurrent_view_posts",recordPosts);
-        model.put("messages",userService.ToMeMessage(user.getUserid()));
+        model.put("recurrent_view_posts",recordPosts.size()>0?recordPosts:null);
+        List<Message> messages = userService.ToMeMessage(user.getUserid());
+        model.put("messages",messages.size()>0?messages:null);//传的是被回复的人id
         model.put("message_nums",messageService.getMessageCountByTouserid(user.getUserid()));
         return "user_info";
     }

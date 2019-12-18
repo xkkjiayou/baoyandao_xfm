@@ -24,13 +24,13 @@ public class MessageServiceImpl implements MessageService {
         return messageMapper.getMessagesByTouserid(touserid);
     }
 
-    @CacheEvict
+    @CacheEvict(value = {"getMessageCountByTouserid","getUserByUserid"})
     @Override
     public int updateMessageStateByMessageid(int messageid) {
         return messageMapper.updateMessageStateByMessageid(messageid);
     }
 
-    @CacheEvict
+    @CacheEvict(value = {"getMessageCountByTouserid","getUserByUserid"})
     @Override
     public int addMessageByMessage(Message message) {
         if(message.getFromuserid()==message.getTouserid()){
