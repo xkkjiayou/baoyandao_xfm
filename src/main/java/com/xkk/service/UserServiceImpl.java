@@ -42,11 +42,26 @@ public class UserServiceImpl implements UserService {
     public int addUser(User user) {
         return userMapper.addUser(user);
     }
+    @CacheEvict
+    @Override
+    public int addQQUser(User user) {
+        return userMapper.addQQUser(user);
+    }
 
     @CacheEvict(value = {"getUserByUserid","getUserByUsername_Password"},allEntries = true)
     @Override
     public int updateTouxiang(User user) {
         return userMapper.updateTouxiang(user);
+    }
+
+    @Override
+    public int updateQQOpenidByLogin(User user) {
+        return userMapper.updateQQOpenidByLogin(user);
+    }
+
+    @Override
+    public User getUserByQQOpenid(String qqopenid) {
+        return userMapper.getUserByQQOpenid(qqopenid);
     }
 
     @Cacheable(value = "ToMeMessage")

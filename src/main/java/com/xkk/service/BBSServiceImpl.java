@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.jms.core.JmsMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -28,6 +29,12 @@ public class BBSServiceImpl implements BBSService {
     BBSMapper bbsMapper;
 
     @Autowired
+    private JmsMessagingTemplate jmsMessagingTemplate;
+
+    @Autowired
+    private Queue emailqueue;
+
+    @Autowired
     UserMapper userMapper;
 
     @Autowired
@@ -38,6 +45,7 @@ public class BBSServiceImpl implements BBSService {
 
     @Autowired
     MessageService messageService;
+
 
     @Cacheable(value = "getPostByUserid")
     @Override
@@ -161,7 +169,7 @@ public class BBSServiceImpl implements BBSService {
     @Override
     public List<Post> getPostByPostid(int postid, User user) {
         //更新帖子最后被回复的时间
-        System.out.println("拿到帖子的ID"+postid);
+        //System.out.println("拿到帖子的ID"+postid);
         Date date = new Date();
         long nowtime = date.getTime();
         List<Post> posts = bbsMapper.getPostByPostid(postid);
@@ -292,11 +300,16 @@ public class BBSServiceImpl implements BBSService {
         message.setFromuserid(comment.getUserid());
         message.setPostid(comment.getPostid());
         messageService.addMessageByMessage(message);
-
+        comment.setPosttitle(post.getTitle());
         //重复评论+10
         recordService.updateScoreNums(comment.getPostid(),comment.getUserid(), RecommendUtil.SCORE_COMMENT);
         comment.setUser(userMapper.getUserByUserid(comment.getUserid()).get(0));
-        emailService.sendEmail(post.getUser().getEmail(),"【小飞猫保研网】您的帖子有一条新回复！",comment.getContent(),comment.getUser(),post);
+        //emailService.sendEmail(post.getUser().getEmail(),"【小飞猫保研网】您的帖子有一条新回复！",comment.getContent(),comment.getUser(),post);
+        EmailMessgae emailMessgae = new EmailMessgae(post.getUser().getEmail(),"【小飞猫保研网】您的帖子有一条新回复！",comment.getContent(),post.getTitle(),comment.getUser().getNickname(),post.getPostid());
+
+        //发邮件加入队列
+        jmsMessagingTemplate.convertAndSend("bbs.email.queue", emailMessgae);
+        System.out.println("EM加入队列");
         //更新帖子最后被回复的时间
         Date date = new Date();
         Timestamp timeStamp = new Timestamp(date.getTime());
@@ -343,9 +356,19 @@ public class BBSServiceImpl implements BBSService {
         messageService.addMessageByMessage(message);
         //回复+5
         recordService.updateScoreNums(reply.getPostid(),reply.getMy_userid(), RecommendUtil.SCORE_REPLY);
-        emailService.sendEmail(post.getUser().getEmail(),"【小飞猫保研网】您的帖子有一条新回复！",reply.getContent(),reply.getMy_user(),post);
-        emailService.sendEmail(reply.getOther_user().getEmail(),"【小飞猫保研网】您的评论有一条新回复！",reply.getContent(),reply.getMy_user(),post);
 
+//        emailService.sendEmail(post.getUser().getEmail(),"【小飞猫保研网】您的帖子有一条新回复！",reply.getContent(),reply.getMy_user(),post);
+//        emailService.sendEmail(reply.getOther_user().getEmail(),"【小飞猫保研网】您的评论有一条新回复！",reply.getContent(),reply.getMy_user(),post);
+
+        EmailMessgae emailMessgae = new EmailMessgae(post.getUser().getEmail(),"【小飞猫保研网】您的帖子有一条新回复！",reply.getContent(),post.getTitle(),reply.getMy_user().getNickname(),post.getPostid());
+        EmailMessgae emailMessgae2 = new EmailMessgae(reply.getOther_user().getEmail(),"【小飞猫保研网】您的帖子有一条新回复！",reply.getContent(),post.getTitle(),reply.getMy_user().getNickname(),post.getPostid());
+
+        jmsMessagingTemplate.convertAndSend("bbs.email.queue", emailMessgae);
+        System.out.println("EM加入队列");
+        jmsMessagingTemplate.convertAndSend("bbs.email.queue", emailMessgae2);
+        System.out.println("EM加入队列");
+        //发邮件加入队列
+        //jmsMessagingTemplate.convertAndSend((Destination) this.emailqueue, reply);
         //更新帖子最后被回复的时间
         Date date = new Date();
         Timestamp timeStamp = new Timestamp(date.getTime());

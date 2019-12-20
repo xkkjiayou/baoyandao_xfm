@@ -11,11 +11,20 @@ public class Comment  implements Serializable {
     int userid;
     User user;
     String content;
+    String posttitle;
     int like_nums;
     Timestamp datetime;
     List<Reply> replies;
     int reply_nums;
     boolean isLiked;
+
+    public String getPosttitle() {
+        return posttitle;
+    }
+
+    public void setPosttitle(String posttitle) {
+        this.posttitle = posttitle;
+    }
 
     @Override
     public String toString() {

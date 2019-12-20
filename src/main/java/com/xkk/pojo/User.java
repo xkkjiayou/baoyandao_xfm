@@ -14,13 +14,40 @@ public class User  implements Serializable {
     String university;
     String age;
     String sex;
+    String gender;
+    String figureurl_qq_1;
     String desc;
+    String qqopenid;
     String major;
     String email;
     String phone;
     String touxiang;
     int message_nums;
     int fromuserid;
+
+    public String getQqopenid() {
+        return qqopenid;
+    }
+
+    public void setQqopenid(String qqopenid) {
+        this.qqopenid = qqopenid;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getFigureurl_qq_1() {
+        return figureurl_qq_1;
+    }
+
+    public void setFigureurl_qq_1(String figureurl_qq_1) {
+        this.figureurl_qq_1 = figureurl_qq_1;
+    }
 
     public int getFromuserid() {
         return fromuserid;

@@ -166,6 +166,7 @@
                             <img src="/byd_web_ui/logo.png" style="height: 100px;"/>
                             <h3 class="login-heading mb-4">小飞猫保研，为梦想拼搏!</h3>
                             <form action="register" method="post" >
+                                <input name="qqopenid" th:if="${qqopenid!=null}" th:value="${qqopenid}" style="display:none" >
                                 <div class="form-label-group">
                                     <input type="text" id="inputEmail" class="form-control" placeholder="请输入账号" required autofocus name="username">
                                     <label for="inputEmail">账号</label>
