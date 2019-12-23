@@ -108,6 +108,34 @@
 			<version>2.0.0</version>
 		</dependency>
 
+		<!-- 支付接口配置 -->
+		<!-- 支付接口需要依赖commons-logging:jar:1.1.1 -->
+		<!-- https://mvnrepository.com/artifact/commons-logging/commons-logging -->
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.1.1</version>
+		</dependency>
+		<!-- 生成支付二维码需要jar -->
+		<!-- https://mvnrepository.com/artifact/com.google.zxing/core -->
+		<dependency>
+			<groupId>com.google.zxing</groupId>
+			<artifactId>core</artifactId>
+			<version>3.3.3</version>
+		</dependency>
+
+		<dependency>
+			<groupId>alipay</groupId>
+			<artifactId>alipay-trade-sdk-20161215</artifactId>
+			<version>1.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>alipay</groupId>
+			<artifactId>alipay-sdk-java-3.3.0</artifactId>
+			<version>1.0</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.apache.mahout</groupId>
 			<artifactId>mahout-core</artifactId>
@@ -150,6 +178,12 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>

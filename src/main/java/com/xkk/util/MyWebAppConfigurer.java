@@ -13,6 +13,7 @@ public class MyWebAppConfigurer implements WebMvcConfigurer {
         registry.addResourceHandler("/byd_bbs/**").addResourceLocations("file:C:/byd_bbs/");
         registry.addResourceHandler("/byd_ad/**").addResourceLocations("file:C:/byd_ad/");
         registry.addResourceHandler("/byd_web_ui/**").addResourceLocations("file:C:/byd_web_ui/");
+        registry.addResourceHandler("/byd_zfb_qr_code/**").addResourceLocations("file:C:/byd_zfb_qr_code/");
 
     }
 
