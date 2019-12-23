@@ -20,6 +20,8 @@ public interface PurchaseMapper {
     @Update("UPDATE tbl_trade SET status=1 WHERE tradeno=#{tradeno}")
     public int updateTradeStatus(String tradeno);
 
+    @Select("SELECT * FROM tbl_trade WHERE productid=#{productid} AND userid=#{userid} AND status=1")
+    public Trade getTradeByProductid(@Param("productid") int productid,@Param("userid") int userid);
 
 
 }

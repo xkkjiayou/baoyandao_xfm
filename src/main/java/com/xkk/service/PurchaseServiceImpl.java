@@ -39,4 +39,9 @@ public class PurchaseServiceImpl implements PurchaseService {
     public int updateTradeStatus(String tradeno) {
         return purchaseMapper.updateTradeStatus(tradeno);
     }
+
+    @Override
+    public Trade getTradeByProductid(int productid,int userid) {
+        return purchaseMapper.getTradeByProductid(productid,userid);
+    }
 }

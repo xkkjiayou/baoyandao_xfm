@@ -21,16 +21,13 @@ import com.xkk.util.ZFBConfig;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 @Controller
@@ -80,6 +77,25 @@ public class AlipayController {
         return json;
     }
 
+    @RequestMapping("/validate_trade/{productid}")
+    @ResponseBody
+    public String validate_trade(@PathVariable("productid") int productid,HttpSession session){
+
+        User user = (User)session.getAttribute(SessionUtil.USER_SESSION_KRY);
+        if(user==null){
+            String json="{\"status\":\"no_login\",\"message\":\"111\"}";
+            return json;
+        }
+        Trade trade = purchaseService.getTradeByProductid(productid,user.getUserid());
+
+        String json="{\"status\":\"error\",\"message\":\"111\"}";
+        if(trade!=null ) {
+
+            String downloadurl = purchaseService.getProductByProductId(trade.getProductid()).getDownloadurl();
+            json = "{\"status\":\"success\",\"message\":\""+downloadurl+"\"}";
+        }
+        return json;
+    }
 
     public String test_trade_precreate(Product product) {
         // (必填) 商户网站订单系统中唯一订单号，64个字符以内，只能包含字母、数字、下划线，
@@ -187,7 +203,8 @@ public class AlipayController {
      * @param request
      */
     @RequestMapping("/alipay_return")
-    public String notify(HttpServletRequest request, ModelMap map) throws AlipayApiException {
+    @ResponseBody
+    public String notify(HttpServletRequest request) throws AlipayApiException {
         // 一定要验签，防止黑客篡改参数
         System.out.println("进入回调接口，购买成功");
 //        Map<String, String[]> parameterMap = request.getParameterMap();
@@ -195,24 +212,25 @@ public class AlipayController {
 
         // https://docs.open.alipay.com/54/106370
         // 获取支付宝POST过来反馈信息
-//        Map<String,String> params = new HashMap<>();
+        Map<String,String> params = new HashMap<>();
         Map requestParams = request.getParameterMap();
-//        for (Iterator iter = requestParams.keySet().iterator(); iter.hasNext();) {
-//            String name = (String) iter.next();
-//            String[] values = (String[]) requestParams.get(name);
-//            String valueStr = "";
-//            for (int i = 0; i < values.length; i++) {
-//                valueStr = (i == values.length - 1) ? valueStr + values[i]
-//                        : valueStr + values[i] + ",";
-//            }
-//            params.put(name, valueStr);
-//        }
+        for (Iterator iter = requestParams.keySet().iterator(); iter.hasNext();) {
+            String name = (String) iter.next();
+            String[] values = (String[]) requestParams.get(name);
+            String valueStr = "";
+            for (int i = 0; i < values.length; i++) {
+                valueStr = (i == values.length - 1) ? valueStr + values[i]
+                        : valueStr + values[i] + ",";
+            }
+            params.put(name, valueStr);
+        }
 
-        String out_trade_no = (String) requestParams.get("out_trade_no");
+        String out_trade_no = params.get("out_trade_no");
         System.out.println("out_trade_no:===："+out_trade_no);
-        purchaseService.updateTradeStatus(out_trade_no);
-        map.put("status","支付成功");
-        return "zfb_result";
+
+        int rs = purchaseService.updateTradeStatus(out_trade_no);
+        System.out.println("zfb_result");
+        return "success";
 //
 //        boolean flag = AlipaySignature.rsaCheckV1(params,
 //                ZFBConfig.alipay_public_key,

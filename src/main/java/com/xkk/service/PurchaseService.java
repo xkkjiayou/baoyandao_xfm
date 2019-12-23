@@ -11,4 +11,5 @@ public interface PurchaseService {
     public Product getProductByProductId(int productid);
     public int addTrade(Trade trade);
     public int updateTradeStatus(String tradeno);
+    public Trade getTradeByProductid(int productid,int userid);
 }

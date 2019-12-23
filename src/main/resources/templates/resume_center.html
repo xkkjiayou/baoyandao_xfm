@@ -231,9 +231,9 @@
                                 </h4>
                                 <br/>
                                 <br/>
-                                    <button  class="btn btn-primary btn-lg"  data-toggle="modal" data-target="#myModal">查看详细</button>
+                                    <button  class="btn btn-primary btn-lg"  data-toggle="modal" th:data-target="'#myModal'+${product.productid}">查看详细</button>
                                 <!-- 模态框（Modal） -->
-                                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal fade" th:id="'myModal'+${product.productid}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -246,34 +246,11 @@
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-primary" th:text="'扫码支付'+${product.price}+'元'" th:onclick="'zhifu('+${product.productid}+')'">
                                                 </button>
+                                                <button type="button" th:id="'btn_'+${product.productid}" class="btn btn-primary" th:text="'我已付款'" th:onclick="'validate('+${product.productid}+')'">
+                                                </button>
+                                            </div>
+                                            <div class="modal-footer">
                                                 <img th:id="'zfb_id_'+${product.productid}" src=""/>
-                                                <script>
-                                                function zhifu(productid){
-                                                $.ajax({
-                                                            type:"get",
-                                                            url: "/pay/"+productid,
-                                                            dataType:'json',//dataType:"json",使得返回来的数据格式为json 如果不 添加该条属性，则返回来的为字符串
-                                                            success:function(data){
-                                                                if(data["status"]=="success"){
-                                                                    alert("获得二维码"+data["message"]);
-                                                                    $('#zfb_id_'+productid).attr("src",data["message"]);
-                                                                    return true;
-                                                                }else if(data["status"]=="no_login"){
-                                                                    window.location.href="/login";
-                                                                    return false;
-                                                                }
-                                                                else{
-                                                                    alert("支付失败");
-                                                                    return false;
-                                                                }
-                                                            },
-                                                            error:function(data){
-                                                                alert("error")
-                                                                alert(data)
-                                                            }
-                                                        })
-                                                }
-                                                </script>
                                             </div>
                                         </div><!-- /.modal-content -->
                                     </div><!-- /.modal-dialog -->
@@ -293,6 +270,59 @@
 
         </div>
 
+        <script>
+        function zhifu(productid){
+            $.ajax({
+                        type:"get",
+                        url: "/pay/"+productid,
+                        dataType:'json',//dataType:"json",使得返回来的数据格式为json 如果不 添加该条属性，则返回来的为字符串
+                        success:function(data){
+                            if(data["status"]=="success"){
+                                alert("获得二维码"+data["message"]);
+                                $('#zfb_id_'+productid).attr("src",data["message"]);
+                                return true;
+                            }else if(data["status"]=="no_login"){
+                                window.location.href="/login";
+                                return false;
+                            }
+                            else{
+                                alert("支付失败");
+                                return false;
+                            }
+                        },
+                        error:function(data){
+                            alert("error")
+                            alert(data)
+                        }
+                    })
+        }
+        function validate(productid){
+            $.ajax({
+                        type:"get",
+                        url: "/validate_trade/"+productid,
+                        dataType:'json',//dataType:"json",使得返回来的数据格式为json 如果不 添加该条属性，则返回来的为字符串
+                        success:function(data){
+                            if(data["status"]=="success"){
+                                alert("获得下载链接"+data["message"]);
+                                window.location.href=data["message"];
+                                return true;
+                            }else if(data["status"]=="no_login"){
+                                window.location.href="/login";
+                                return false;
+                            }
+                            else{
+                                alert("尚未购买");
+                                $("#btn_"+productid).text("尚未购买");
+                                return false;
+                            }
+                        },
+                        error:function(data){
+                            alert("error")
+                            alert(data)
+                        }
+                    })
+        }
+        </script>
 <!--        <div >-->
 <!--            <ul class="pagination postlist mypagination">-->
 <!--                <li><a th:href="'/university/'+${page_start - 1}+'/666?location='+${cur_location}" >«</a></li>-->
